@@ -68,7 +68,13 @@ const MovieBlock = (props) => {
   }
   // image loaded
   return (
-    <button onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} className="submmit-movies" type="button" style={buttonStyle}>
+    <button
+      onMouseEnter={mouseEnter}
+      onMouseLeave={mouseLeave}
+      className="submmit-movies"
+      type="button"
+      style={buttonStyle}
+    >
       <img src={imagePath} alt="592350.jpg" style={posterStyle} />
     </button>
   );

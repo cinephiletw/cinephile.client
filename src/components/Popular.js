@@ -39,7 +39,7 @@ const Popular = (props) => {
       const [popularMovies] = await Promise.all([
         fetchPopularMovies(),
       ]);
-      const idList = Object.values(popularMovies.popularData).map((item) => (item.id));
+      const idList = Object.values(popularMovies.popularData).map((item) => (item.movie_id));
       setPopularData(idList);
     };
     fetchData();
@@ -47,7 +47,7 @@ const Popular = (props) => {
 
   return (
     <div className="popular-movies" style={popularStyle}>
-      { popularData.slice(5).map((item) => (
+      { popularData.map((item) => (
         <MovieBlock img_type="poster" key={item} id={item} />
       ))}
     </div>

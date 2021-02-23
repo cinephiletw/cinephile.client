@@ -1,9 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import axios from 'axios';
+import CastList from './CastList';
+
 // 這是個別電影頁設計
 
-const Movies = () => {
-  const backDropPath = 'http://localhost:4000/images/backdrop/backdrop_path_320846.jpg';
-  const posterPath = 'http://localhost:4000/images/poster/poster_path_320846.jpg';
+const Movies = (props) => {
+  // 參數網址
+  const { match } = props;
+  const [movieInfo, setMovieInfo] = useState([{ title: 'loading', content: 'loading' }]);
+  const [castInfo, setCastInfo] = useState([null]);
+  const backDropPath = `http://localhost:4000/images/backdrop/image_path_${match.params.movieId}/${match.params.movieId}_0.jpg`;
+  const posterPath = `http://localhost:4000/images/poster/poster_path_${match.params.movieId}.jpg`;
 
   // 頁面
   const layoutStyle = {
@@ -24,14 +32,15 @@ const Movies = () => {
     height: '630px',
     width: '1120px',
     backgroundColor: 'rgb(10, 10, 10)',
+    overflow: 'hidden',
   };
   // 背景照片
   const backDropStyle = {
     position: 'absolute',
-    height: '630px',
+    height: '746px',
     width: '1120px',
     zIndex: '1',
-    opacity: '0.2',
+    opacity: '0.15',
   };
   // 海報
   const posterStyle = {
@@ -47,7 +56,7 @@ const Movies = () => {
     top: '10%',
     left: '35%',
     zIndex: '3',
-    fontSize: '40pt',
+    fontSize: '30pt',
     color: '#FFFFFF',
     opacity: '1',
   };
@@ -58,7 +67,8 @@ const Movies = () => {
     left: '35%',
     width: '60%',
     zIndex: '3',
-    fontSize: '13pt',
+    fontSize: '14pt',
+    fontFamily: 'THeiti Light',
     color: '#FFFFFF',
     opacity: '1',
   };
@@ -74,14 +84,28 @@ const Movies = () => {
     opacity: '1',
   };
 
+  // 演員標題
+  const castTitleStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '35%',
+    width: '8%',
+    zIndex: '3',
+    fontSize: '12pt',
+    fontFamily: 'THeiti Light',
+    color: 'rgb(200, 200, 200)',
+    opacity: '1',
+  };
+
   // 演員陣容
   const castStyle = {
     position: 'absolute',
-    top: '55%',
-    left: '35%',
-    width: '60%',
+    top: '50.1%',
+    left: '42%',
+    width: '55%',
     zIndex: '3',
-    fontSize: '13pt',
+    fontSize: '12pt',
+    fontFamily: 'THeiti Light',
     color: '#FFFFFF',
     opacity: '1',
   };
@@ -92,23 +116,51 @@ const Movies = () => {
     left: '35%',
     width: '60%',
     zIndex: '3',
-    fontSize: '13pt',
+    fontSize: '12.5pt',
     color: '#FFFFFF',
     opacity: '1',
   };
 
+  // 接API 取得電影資訊
+  const fetchMoviesData = () => (
+    axios.get(`http://localhost:4000/moviePages/movies/${match.params.movieId}`)
+      .then((res) => (res.data))
+      .catch((error) => { console.log(error); })
+  );
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const [movieData] = await Promise.all([
+        fetchMoviesData(),
+      ]);
+      setMovieInfo(movieData.data[0]);
+      setCastInfo(movieData.data[0].cast);
+    };
+    fetchData();
+  }, []);
+  // const castList = castInfo.map((item) => (` ${item.name_tw}( ${item.name_en} )`));
   return (
     <div style={layoutStyle}>
       <div style={coverStyle}>
         <img src={backDropPath} alt="backdrop" style={backDropStyle} />
         <img src={posterPath} alt="poster" style={posterStyle} />
-        <h3 style={titleStyle}> Sky Shark</h3>
-        <text style={textStyle}>{'在1967年年底，有一個孤苦伶仃的男童\n（賈瑟布魯諾 飾）來到阿拉巴馬州鄉下的迪莫波利斯鎮，\n去跟他親愛的奶奶（奧塔薇亞史班森 飾）一起住。\n男孩與奶奶遇到一群神祕、迷人卻又殘忍的女巫...'}</text>
-        <text style={directorStyle}>導演：三木孝浩</text>
-        <text style={castStyle}>主演：張震、張鈞甯、李銘順(Christopher Lee)、林暉閔、古斌</text>
+        <h3 style={titleStyle}>{movieInfo.title}</h3>
+        <h3 style={textStyle}>{movieInfo.content}</h3>
+        <CastList castList={castInfo} />
       </div>
     </div>
   );
+};
+
+// <h3 style={castStyle}>{castList.toString()}</h3>
+// <h3 style={castTitleStyle}>演員陣容：</h3>
+
+Movies.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      movieId: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
 export default Movies;
