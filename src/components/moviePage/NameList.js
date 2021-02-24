@@ -4,12 +4,14 @@ import axios from 'axios';
 import CheckNames from './CheckNames';
 
 // 個別電影頁的cast list，判斷如果沒有資料，回傳"無"
-const CastList = (props) => {
-  const { castList } = props;
+const NameList = (props) => {
+  const { nameList } = props;
+  const { height } = props;
+  const { titleType } = props;
   // 演員標題
-  const castTitleStyle = {
+  const nameTitleStyle = {
     position: 'absolute',
-    top: '50%',
+    top: `${height}%`,
     left: '35%',
     width: '8%',
     zIndex: '3',
@@ -20,9 +22,9 @@ const CastList = (props) => {
   };
 
   // 演員陣容
-  const castStyle = {
+  const nameStyle = {
     position: 'absolute',
-    top: '50.1%',
+    top: `${height}.1%`,
     left: '42%',
     width: '55%',
     zIndex: '3',
@@ -32,27 +34,29 @@ const CastList = (props) => {
     opacity: '1',
   };
 
-  if (castList[0] === null) {
+  if (nameList[0] === null) {
     return (
       <div>
-        <h3 style={castStyle}>無</h3>
-        <h3 style={castTitleStyle}>演員陣容：</h3>
+        <h3 style={nameStyle}>無</h3>
+        <h3 style={nameTitleStyle}>{titleType}</h3>
       </div>
     );
   }
   return (
     <div>
-      <CheckNames names={castList} />
-      <h3 style={castTitleStyle}>演員陣容：</h3>
+      <CheckNames names={nameList} height={height} />
+      <h3 style={nameTitleStyle}>{titleType}</h3>
     </div>
   );
 };
 
-CastList.propTypes = {
-  castList: propTypes.oneOfType([
+NameList.propTypes = {
+  nameList: propTypes.oneOfType([
     propTypes.arrayOf(propTypes.string).isRequired,
     propTypes.arrayOf(propTypes.object).isRequired,
   ]).isRequired,
+  height: propTypes.string.isRequired,
+  titleType: propTypes.string.isRequired,
 };
 
-export default CastList;
+export default NameList;

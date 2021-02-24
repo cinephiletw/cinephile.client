@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import CastList from './CastList';
+import NameList from './NameList';
 
 // 這是個別電影頁設計
 
@@ -10,6 +10,7 @@ const Movies = (props) => {
   const { match } = props;
   const [movieInfo, setMovieInfo] = useState([{ title: 'loading', content: 'loading' }]);
   const [castInfo, setCastInfo] = useState([null]);
+  const [directorInfo, setDirectorInfo] = useState([null]);
   const backDropPath = `http://localhost:4000/images/backdrop/image_path_${match.params.movieId}/${match.params.movieId}_0.jpg`;
   const posterPath = `http://localhost:4000/images/poster/poster_path_${match.params.movieId}.jpg`;
 
@@ -135,10 +136,11 @@ const Movies = (props) => {
       ]);
       setMovieInfo(movieData.data[0]);
       setCastInfo(movieData.data[0].cast);
+      setDirectorInfo(movieData.data[0].director);
     };
     fetchData();
   }, []);
-  // const castList = castInfo.map((item) => (` ${item.name_tw}( ${item.name_en} )`));
+
   return (
     <div style={layoutStyle}>
       <div style={coverStyle}>
@@ -146,7 +148,8 @@ const Movies = (props) => {
         <img src={posterPath} alt="poster" style={posterStyle} />
         <h3 style={titleStyle}>{movieInfo.title}</h3>
         <h3 style={textStyle}>{movieInfo.content}</h3>
-        <CastList castList={castInfo} />
+        <NameList nameList={directorInfo} height={59} titleType="導演監製：" />
+        <NameList nameList={castInfo} height={66} titleType="演員陣容：" />
       </div>
     </div>
   );

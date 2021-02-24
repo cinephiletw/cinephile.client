@@ -7,12 +7,13 @@ import axios from 'axios';
 // 只有中文：中文名
 const CheckNames = (props) => {
   const { names } = props;
+  const { height } = props;
   const nameList = [];
 
   // 演員陣容
   const castStyle = {
     position: 'absolute',
-    top: '50.1%',
+    top: `${height}.1%`,
     left: '42%',
     width: '55%',
     zIndex: '3',
@@ -45,6 +46,7 @@ const CheckNames = (props) => {
 
 CheckNames.propTypes = {
   names: propTypes.arrayOf(propTypes.object).isRequired,
+  height: propTypes.string.isRequired,
 };
 
 export default CheckNames;
