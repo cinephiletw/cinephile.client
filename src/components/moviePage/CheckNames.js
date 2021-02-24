@@ -23,7 +23,6 @@ const CheckNames = (props) => {
   };
 
   let i = 0;
-  console.log(names);
 
   for (i; i < names.length; i += 1) {
     if ('name_tw' in names[i] && 'name_en' in names[i]) {
@@ -36,11 +35,10 @@ const CheckNames = (props) => {
       // pass
     }
   }
-  console.log(nameList);
 
   return (
     <div>
-      <h3 style={castStyle}>{nameList.toString()}</h3>
+      <h3 style={castStyle}>{nameList.join('、')}</h3>
     </div>
   );
 };
