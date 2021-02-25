@@ -9,8 +9,10 @@ const Layout = (props) => {
     top: '80px',
     width: '100%',
     height: '90%',
+    // 隱藏卷軸-17像素
+    right: '-17px',
     backgroundColor: 'rgb(20, 20, 20)',
-    overflow: 'scroll',
+    overflowY: 'scroll',
     display: 'flex',
   };
 

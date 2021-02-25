@@ -6,6 +6,7 @@ import MovieBlock from './MovieBlock';
 const Popular = (props) => {
   // 使用props 傳入值，要先宣告
   const { positionV } = props;
+
   const popularStyle = {
     position: 'absolute',
     top: `${positionV}`,
@@ -15,9 +16,11 @@ const Popular = (props) => {
     height: '320px',
     backgroundColor: 'rgb(20, 20, 20)',
     borderRadius: '30px 30px 30px 30px',
-    overflowX: 'scroll',
+    overflowX: 'hidden',
+    overflowY: 'hidden',
     display: 'flex',
     flexDirection: 'row',
+    scrollbarColor: 'rgb(0, 0, 0)',
   };
 
   // react 中props 所傳的參數是唯讀，要寫可變參數要使用 useState 用法為

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -55,6 +56,8 @@ const MovieBlock = (props) => {
     setMarginTop('31px');
     console.log('mouse enter');
   };
+
+  const route = `/movies/${id}`;
   // 因上層使用useEffect 前會先render 一次，此時海報資料還沒進來，先給個loading icon 等待useEffect 執行
   // not loaded yet
   if (id === 0) {
@@ -68,15 +71,17 @@ const MovieBlock = (props) => {
   }
   // image loaded
   return (
-    <button
-      onMouseEnter={mouseEnter}
-      onMouseLeave={mouseLeave}
-      className="submmit-movies"
-      type="button"
-      style={buttonStyle}
-    >
-      <img src={imagePath} alt="592350.jpg" style={posterStyle} />
-    </button>
+    <Link to={route}>
+      <button
+        onMouseEnter={mouseEnter}
+        onMouseLeave={mouseLeave}
+        className="submmit-movies"
+        type="button"
+        style={buttonStyle}
+      >
+        <img src={imagePath} alt="592350.jpg" style={posterStyle} />
+      </button>
+    </Link>
   );
 };
 
