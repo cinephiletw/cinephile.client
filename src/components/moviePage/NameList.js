@@ -8,7 +8,7 @@ const NameList = (props) => {
   const { nameList } = props;
   const { height } = props;
   const { titleType } = props;
-  // 演員標題
+  // 標題
   const nameTitleStyle = {
     position: 'absolute',
     top: `${height}%`,
@@ -21,10 +21,10 @@ const NameList = (props) => {
     opacity: '1',
   };
 
-  // 演員陣容
+  // 名單
   const nameStyle = {
     position: 'absolute',
-    top: `${height}.1%`,
+    top: `${height}%`,
     left: '42%',
     width: '55%',
     zIndex: '3',

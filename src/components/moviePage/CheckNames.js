@@ -13,7 +13,7 @@ const CheckNames = (props) => {
   // 演員陣容
   const castStyle = {
     position: 'absolute',
-    top: `${height}.1%`,
+    top: `${height}%`,
     left: '42%',
     width: '55%',
     zIndex: '3',

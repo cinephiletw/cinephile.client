@@ -25,14 +25,14 @@ const Movies = (props) => {
   };
   // 主容器
   const coverStyle = {
-    position: 'absolute',
+    background: 'rgb(0, 0, 0)',
+    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    zIndex: '2',
+    zIndex: '1',
     height: '630px',
     width: '1120px',
-    backgroundColor: 'rgb(10, 10, 10)',
     overflow: 'hidden',
   };
   // 背景照片
@@ -40,8 +40,17 @@ const Movies = (props) => {
     position: 'absolute',
     height: '746px',
     width: '1120px',
-    zIndex: '1',
-    opacity: '0.15',
+    zIndex: '2',
+  };
+  // 漸層
+  const transpaStyle = {
+    background: 'linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 1))',
+    position: 'absolute',
+    display: 'flex',
+    zIndex: '3',
+    height: '100%',
+    width: '100%',
+    overflow: 'hidden',
   };
   // 海報
   const posterStyle = {
@@ -49,12 +58,12 @@ const Movies = (props) => {
     left: '5%',
     height: '420px',
     width: '280px',
-    zIndex: '3',
+    zIndex: '4',
   };
   // 標題
   const titleStyle = {
     position: 'absolute',
-    top: '10%',
+    top: '15%',
     left: '35%',
     zIndex: '3',
     fontSize: '30pt',
@@ -64,48 +73,11 @@ const Movies = (props) => {
   // 介紹文字
   const textStyle = {
     position: 'absolute',
-    top: '30%',
+    top: '40%',
     left: '35%',
     width: '60%',
     zIndex: '3',
     fontSize: '14pt',
-    fontFamily: 'THeiti Light',
-    color: '#FFFFFF',
-    opacity: '1',
-  };
-  // 導演
-  const directorStyle = {
-    position: 'absolute',
-    top: '45%',
-    left: '35%',
-    width: '60%',
-    zIndex: '3',
-    fontSize: '13pt',
-    color: '#FFFFFF',
-    opacity: '1',
-  };
-
-  // 演員標題
-  const castTitleStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '35%',
-    width: '8%',
-    zIndex: '3',
-    fontSize: '12pt',
-    fontFamily: 'THeiti Light',
-    color: 'rgb(200, 200, 200)',
-    opacity: '1',
-  };
-
-  // 演員陣容
-  const castStyle = {
-    position: 'absolute',
-    top: '50.1%',
-    left: '42%',
-    width: '55%',
-    zIndex: '3',
-    fontSize: '12pt',
     fontFamily: 'THeiti Light',
     color: '#FFFFFF',
     opacity: '1',
@@ -145,11 +117,12 @@ const Movies = (props) => {
     <div style={layoutStyle}>
       <div style={coverStyle}>
         <img src={backDropPath} alt="backdrop" style={backDropStyle} />
+        <div style={transpaStyle} />
         <img src={posterPath} alt="poster" style={posterStyle} />
         <h3 style={titleStyle}>{movieInfo.title}</h3>
         <h3 style={textStyle}>{movieInfo.content}</h3>
-        <NameList nameList={directorInfo} height={59} titleType="導演監製：" />
-        <NameList nameList={castInfo} height={66} titleType="演員陣容：" />
+        <NameList nameList={directorInfo} height={65} titleType="導演監製：" />
+        <NameList nameList={castInfo} height={72} titleType="演員陣容：" />
       </div>
     </div>
   );
