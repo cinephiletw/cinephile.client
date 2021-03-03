@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const MovieBlock = (props) => {
   const { img_type } = props;
   const { id } = props;
+  const { move } = props;
   const imagePath = `http://localhost:4000/images/poster/${img_type}_path_${String(id)}.jpg`;
   const [width, setWidth] = useState('160px');
   const [height, setHeight] = useState('240px');
@@ -17,8 +19,10 @@ const MovieBlock = (props) => {
     borderRadius: '10px 10px 10px 10px',
   };
   const buttonStyle = {
+    position: 'relative',
+    right: `${move}px`,
     marginTop: `${marginTop}`,
-    marginRight: '30px',
+    marginRight: '20px',
     height: `${height}`,
     width: `${width}`,
     alignItems: 'center',
@@ -28,6 +32,7 @@ const MovieBlock = (props) => {
     backgroundColor: 'rgb(20, 20, 20)',
     border: 'none',
     cursor: 'pointer',
+    transition: 'right 0.5s',
   };
 
   const iconStyle = {
@@ -43,8 +48,8 @@ const MovieBlock = (props) => {
   };
 
   const mouseEnter = () => {
-    setWidth('200px');
-    setHeight('300px');
+    setWidth('180px');
+    setHeight('270px');
     setMarginTop('10px');
     console.log('mouse enter');
   };
@@ -55,6 +60,8 @@ const MovieBlock = (props) => {
     setMarginTop('31px');
     console.log('mouse enter');
   };
+
+  const route = `/movies/${id}`;
   // 因上層使用useEffect 前會先render 一次，此時海報資料還沒進來，先給個loading icon 等待useEffect 執行
   // not loaded yet
   if (id === 0) {
@@ -68,15 +75,24 @@ const MovieBlock = (props) => {
   }
   // image loaded
   return (
-    <button onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} className="submmit-movies" type="button" style={buttonStyle}>
-      <img src={imagePath} alt="592350.jpg" style={posterStyle} />
-    </button>
+    <Link to={route}>
+      <button
+        onMouseEnter={mouseEnter}
+        onMouseLeave={mouseLeave}
+        className="submmit-movies"
+        type="button"
+        style={buttonStyle}
+      >
+        <img src={imagePath} alt="592350.jpg" style={posterStyle} />
+      </button>
+    </Link>
   );
 };
 
 MovieBlock.propTypes = {
   img_type: propTypes.string.isRequired,
   id: propTypes.number.isRequired,
+  move: propTypes.number.isRequired,
 };
 
 export default MovieBlock;
