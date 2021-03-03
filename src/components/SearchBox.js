@@ -12,11 +12,9 @@ const SearchBox = (props) => {
 
   const searchStyle = {
     base: {
-      top: '12px',
       left: '15%',
       position: 'fixed',
       padding: '0px 30px 0px 20px',
-      height: '26px',
       backgroundColor: 'rgb(35, 35, 35)',
       display: 'flex',
       alignItems: 'center',
@@ -30,7 +28,6 @@ const SearchBox = (props) => {
       textAlign: 'start',
     },
     open: {
-      fontSize: '18',
       width: `${mediaWidth * 0.5}px`,
       transition: 'width 0.2s, opacity 0.2s',
       opacity: '1',
@@ -41,12 +38,20 @@ const SearchBox = (props) => {
       transition: 'width 0.2s, opacity 0.2s 0.2s',
       opacity: '0',
     },
+    mobile: {
+      top: '12px',
+      fontSize: '18',
+      height: '26px',
+    },
+    laptop: {
+      top: '17px',
+      fontSize: '22',
+      height: '36px',
+    },
   };
 
   const buttonStyle = {
     base: {
-      top: '15px',
-      left: '15%',
       position: 'fixed',
       background: 'rgba(0, 0, 0, 0)',
       transition: 'margin-left 0.2s',
@@ -59,12 +64,28 @@ const SearchBox = (props) => {
     close: {
       marginLeft: '0',
     },
+    mobile: {
+      top: '15px',
+      left: '15%',
+    },
+    laptop: {
+      top: '22px',
+      left: '14%',
+    },
   };
 
   const iconStyle = {
-    color: 'rgb(220, 220, 220)',
-    height: '20px',
-    width: '20px',
+    base: {
+      color: 'rgb(220, 220, 220)',
+    },
+    mobile: {
+      height: '20px',
+      width: '20px',
+    },
+    laptop: {
+      height: '25px',
+      width: '25px',
+    },
   };
 
   const { placeholder } = props;
@@ -93,13 +114,27 @@ const SearchBox = (props) => {
     setSearchText(event.target.value);
   };
 
+  const mediaSearch = (_width) => {
+    if (_width < 1024) {
+      return { ...searchStyle.base, ...searchStyle.mobile };
+    }
+    return { ...searchStyle.base, ...searchStyle.laptop };
+  };
+
+  const mediaButton = (_width) => {
+    if (_width < 1024) {
+      return { ...buttonStyle.base, ...buttonStyle.mobile };
+    }
+    return { ...buttonStyle.base, ...buttonStyle.laptop };
+  };
+
   return (
     <form onSubmit={handleSubmmit}>
       <input
         style={
           open
-            ? { ...searchStyle.base, ...searchStyle.open }
-            : { ...searchStyle.base, ...searchStyle.close }
+            ? { ...mediaSearch(mediaWidth), ...searchStyle.open }
+            : { ...mediaSearch(mediaWidth), ...searchStyle.close }
         }
         name="search"
         className="SearchBox"
@@ -114,15 +149,19 @@ const SearchBox = (props) => {
         onClick={handleClick}
         style={
           open
-            ? { ...buttonStyle.base, ...buttonStyle.open }
-            : { ...buttonStyle.base, ...buttonStyle.close }
+            ? { ...mediaButton(mediaWidth), ...buttonStyle.open }
+            : { ...mediaButton(mediaWidth), ...buttonStyle.close }
         }
         disabled={open}
       >
         <div>
           <FontAwesomeIcon
             icon={faSearch}
-            style={iconStyle}
+            style={
+              mediaWidth < 1024
+                ? { ...iconStyle.base, ...iconStyle.mobile }
+                : { ...iconStyle.base, ...iconStyle.laptop }
+            }
           />
         </div>
       </button>
