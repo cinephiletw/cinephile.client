@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import propTypes from 'prop-types';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,31 +8,49 @@ const MovieBlock = (props) => {
   const { img_type } = props;
   const { id } = props;
   const { move } = props;
+  const { closeSize } = props;
+  const { openSize } = props;
   const imagePath = `http://localhost:4000/images/poster/${img_type}_path_${String(id)}.jpg`;
-  const [width, setWidth] = useState('160px');
-  const [height, setHeight] = useState('240px');
-  const [marginTop, setMarginTop] = useState('31px');
+  const history = useHistory();
+  const [touch, setTouch] = useState(false);
 
   const posterStyle = {
-    height: `${height}`,
-    width: `${width}`,
-    borderRadius: '10px 10px 10px 10px',
+    base: {
+      borderRadius: '10px 10px 10px 10px',
+    },
+    unTouch: {
+      height: `${closeSize[0]}`,
+      width: `${closeSize[1]}`,
+    },
+    touch: {
+      height: `${openSize[0]}`,
+      width: `${openSize[1]}`,
+    },
   };
   const buttonStyle = {
-    position: 'relative',
-    right: `${move}px`,
-    marginTop: `${marginTop}`,
-    marginRight: '20px',
-    height: `${height}`,
-    width: `${width}`,
-    alignItems: 'center',
-    justifyContent: 'center',
-    outline: 'none',
-    borderRadius: '10px 10px 10px 10px',
-    backgroundColor: 'rgb(20, 20, 20)',
-    border: 'none',
-    cursor: 'pointer',
-    transition: 'right 0.5s',
+    base: {
+      position: 'relative',
+      marginRight: '20px',
+      alignItems: 'center',
+      justifyContent: 'center',
+      outline: 'none',
+      borderRadius: '10px 10px 10px 10px',
+      backgroundColor: 'rgb(20, 20, 20)',
+      border: 'none',
+      cursor: 'pointer',
+      transition: 'right 0.5s',
+      right: `${move}px`,
+    },
+    unTouch: {
+      marginTop: `${closeSize[2]}`,
+      height: `${closeSize[0]}`,
+      width: `${closeSize[1]}`,
+    },
+    touch: {
+      marginTop: `${openSize[2]}`,
+      height: `${openSize[0]}`,
+      width: `${openSize[1]}`,
+    },
   };
 
   const iconStyle = {
@@ -47,19 +65,17 @@ const MovieBlock = (props) => {
     size: 'xs',
   };
 
-  const mouseEnter = () => {
-    setWidth('180px');
-    setHeight('270px');
-    setMarginTop('10px');
-    console.log('mouse enter');
-  };
+  // const mouseEnter = () => {
+  //   setWidth('180px');
+  //   setHeight('270px');
+  //   setMarginTop('0px');
+  // };
 
-  const mouseLeave = () => {
-    setWidth('160px');
-    setHeight('240px');
-    setMarginTop('31px');
-    console.log('mouse enter');
-  };
+  //   const mouseLeave = () => {
+  //     setWidth(`${mediaWidth * (160 / 425)}px`);
+  //     setHeight(`${mediaWidth * (240 / 425)}px`);
+  //     setMarginTop(`${mediaWidth * (15 / 425)}px`);
+  //   };
 
   const route = `/movies/${id}`;
   // 因上層使用useEffect 前會先render 一次，此時海報資料還沒進來，先給個loading icon 等待useEffect 執行
@@ -75,17 +91,28 @@ const MovieBlock = (props) => {
   }
   // image loaded
   return (
-    <Link to={route}>
-      <button
-        onMouseEnter={mouseEnter}
-        onMouseLeave={mouseLeave}
-        className="submmit-movies"
-        type="button"
-        style={buttonStyle}
-      >
-        <img src={imagePath} alt="592350.jpg" style={posterStyle} />
-      </button>
-    </Link>
+    <button
+      onClick={() => history.push(route)}
+      onMouseEnter={setTouch(true)}
+      onMouseLeave={setTouch(false)}
+      className="submmit-movies"
+      type="button"
+      style={
+        touch
+          ? { ...buttonStyle.base, ...buttonStyle.touch }
+          : { ...buttonStyle.base, ...buttonStyle.unTouch }
+      }
+    >
+      <img
+        src={imagePath}
+        alt="592350.jpg"
+        style={
+          touch
+            ? { ...posterStyle.base, ...posterStyle.touch }
+            : { ...posterStyle.base, ...posterStyle.unTouch }
+        }
+      />
+    </button>
   );
 };
 
@@ -93,6 +120,8 @@ MovieBlock.propTypes = {
   img_type: propTypes.string.isRequired,
   id: propTypes.number.isRequired,
   move: propTypes.number.isRequired,
+  closeSize: propTypes.arrayOf(propTypes.string.isRequired).isRequired,
+  openSize: propTypes.arrayOf(propTypes.string.isRequired).isRequired,
 };
 
 export default MovieBlock;

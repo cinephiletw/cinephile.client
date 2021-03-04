@@ -9,21 +9,17 @@ import useViewport from '../hooks/useViewport';
 const Popular = (props) => {
   // 使用props 傳入值，要先宣告
   const { positionV } = props;
-  const { width } = useViewport();
-
-  const testStyle = {
-    display: 'none',
-  };
+  const { mediaWidth } = useViewport();
 
   const popularStyle = {
     position: 'absolute',
-    top: `${positionV}`,
+    marginTop: `${positionV}`,
     marginLeft: '3%',
     marginRight: '3%',
     width: '94%',
-    height: '320px',
+    height: `${mediaWidth * (270 / 425)}px`,
     backgroundColor: 'rgb(20, 20, 20)',
-    borderRadius: '30px 30px 30px 30px',
+    borderRadius: '10px 10px 10px 10px',
     overflowX: 'hidden',
     overflowY: 'hidden',
     display: 'flex',
@@ -32,14 +28,14 @@ const Popular = (props) => {
   };
 
   const transpaStyle = {
-    background: 'linear-gradient(90deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1))',
+    background: 'linear-gradient(90deg, rgba(20, 20, 20, 0), rgba(20, 20, 20, 1))',
     position: 'absolute',
     display: 'flex',
     zIndex: '3',
     right: '0px',
-    top: '31px',
-    height: '245px',
-    width: '6%',
+    top: '0px',
+    height: `${mediaWidth * (270 / 425)}px`,
+    width: `${mediaWidth * (60 / 425)}px`,
     overflow: 'hidden',
     borderRadius: '10px 0px 0px 10px',
     alignItems: 'center',
@@ -84,6 +80,17 @@ const Popular = (props) => {
     }
   };
 
+  const closeSize = [
+    `${mediaWidth * (240 / 425)}px`,
+    `${mediaWidth * (160 / 425)}px`,
+    `${mediaWidth * (15 / 425)}px`,
+  ];
+  const openSize = [
+    `${mediaWidth * (270 / 425)}px`,
+    `${mediaWidth * (180 / 425)}px`,
+    '0px',
+  ];
+
   // useEffect 為設定頁面起始，在render 執行
   useEffect(() => {
     const fetchData = async () => {
@@ -106,7 +113,14 @@ const Popular = (props) => {
         </button>
       </div>
       { popularData.map((item) => (
-        <MovieBlock img_type="poster" key={item} id={item} move={move} />
+        <MovieBlock
+          img_type="poster"
+          key={item}
+          id={item}
+          move={move}
+          closeSize={closeSize}
+          openSize={openSize}
+        />
       ))}
     </div>
   );
