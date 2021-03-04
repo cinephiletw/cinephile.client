@@ -1,9 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import axios from 'axios';
+import NameList from './NameList';
+
 // 這是個別電影頁設計
 
-const Movies = () => {
-  const backDropPath = 'http://localhost:4000/images/backdrop/backdrop_path_320846.jpg';
-  const posterPath = 'http://localhost:4000/images/poster/poster_path_320846.jpg';
+const Movies = (props) => {
+  // 參數網址
+  const { match } = props;
+  const [movieInfo, setMovieInfo] = useState([{ title: 'loading', content: 'loading' }]);
+  const [castInfo, setCastInfo] = useState([null]);
+  const [directorInfo, setDirectorInfo] = useState([null]);
+  const backDropPath = `http://localhost:4000/images/backdrop/image_path_${match.params.movieId}/${match.params.movieId}_0.jpg`;
+  const posterPath = `http://localhost:4000/images/poster/poster_path_${match.params.movieId}.jpg`;
 
   // 頁面
   const layoutStyle = {
@@ -16,22 +25,32 @@ const Movies = () => {
   };
   // 主容器
   const coverStyle = {
-    position: 'absolute',
+    background: 'rgb(0, 0, 0)',
+    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    zIndex: '2',
+    zIndex: '1',
     height: '630px',
     width: '1120px',
-    backgroundColor: 'rgb(10, 10, 10)',
+    overflow: 'hidden',
   };
   // 背景照片
   const backDropStyle = {
     position: 'absolute',
-    height: '630px',
+    height: '746px',
     width: '1120px',
-    zIndex: '1',
-    opacity: '0.2',
+    zIndex: '2',
+  };
+  // 漸層
+  const transpaStyle = {
+    background: 'linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 1))',
+    position: 'absolute',
+    display: 'flex',
+    zIndex: '3',
+    height: '100%',
+    width: '100%',
+    overflow: 'hidden',
   };
   // 海報
   const posterStyle = {
@@ -39,49 +58,27 @@ const Movies = () => {
     left: '5%',
     height: '420px',
     width: '280px',
-    zIndex: '3',
+    zIndex: '4',
   };
   // 標題
   const titleStyle = {
     position: 'absolute',
-    top: '10%',
+    top: '15%',
     left: '35%',
     zIndex: '3',
-    fontSize: '40pt',
+    fontSize: '30pt',
     color: '#FFFFFF',
     opacity: '1',
   };
   // 介紹文字
   const textStyle = {
     position: 'absolute',
-    top: '30%',
+    top: '40%',
     left: '35%',
     width: '60%',
     zIndex: '3',
-    fontSize: '13pt',
-    color: '#FFFFFF',
-    opacity: '1',
-  };
-  // 導演
-  const directorStyle = {
-    position: 'absolute',
-    top: '45%',
-    left: '35%',
-    width: '60%',
-    zIndex: '3',
-    fontSize: '13pt',
-    color: '#FFFFFF',
-    opacity: '1',
-  };
-
-  // 演員陣容
-  const castStyle = {
-    position: 'absolute',
-    top: '55%',
-    left: '35%',
-    width: '60%',
-    zIndex: '3',
-    fontSize: '13pt',
+    fontSize: '14pt',
+    fontFamily: 'THeiti Light',
     color: '#FFFFFF',
     opacity: '1',
   };
@@ -92,23 +89,54 @@ const Movies = () => {
     left: '35%',
     width: '60%',
     zIndex: '3',
-    fontSize: '13pt',
+    fontSize: '12.5pt',
     color: '#FFFFFF',
     opacity: '1',
   };
+
+  // 接API 取得電影資訊
+  const fetchMoviesData = () => (
+    axios.get(`http://localhost:4000/moviePages/movies/${match.params.movieId}`)
+      .then((res) => (res.data))
+      .catch((error) => { console.log(error); })
+  );
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const [movieData] = await Promise.all([
+        fetchMoviesData(),
+      ]);
+      setMovieInfo(movieData.data[0]);
+      setCastInfo(movieData.data[0].cast);
+      setDirectorInfo(movieData.data[0].director);
+    };
+    fetchData();
+  }, []);
 
   return (
     <div style={layoutStyle}>
       <div style={coverStyle}>
         <img src={backDropPath} alt="backdrop" style={backDropStyle} />
+        <div style={transpaStyle} />
         <img src={posterPath} alt="poster" style={posterStyle} />
-        <h3 style={titleStyle}> Sky Shark</h3>
-        <text style={textStyle}>{'在1967年年底，有一個孤苦伶仃的男童\n（賈瑟布魯諾 飾）來到阿拉巴馬州鄉下的迪莫波利斯鎮，\n去跟他親愛的奶奶（奧塔薇亞史班森 飾）一起住。\n男孩與奶奶遇到一群神祕、迷人卻又殘忍的女巫...'}</text>
-        <text style={directorStyle}>導演：三木孝浩</text>
-        <text style={castStyle}>主演：張震、張鈞甯、李銘順(Christopher Lee)、林暉閔、古斌</text>
+        <h3 style={titleStyle}>{movieInfo.title}</h3>
+        <h3 style={textStyle}>{movieInfo.content}</h3>
+        <NameList nameList={directorInfo} height={65} titleType="導演監製：" />
+        <NameList nameList={castInfo} height={72} titleType="演員陣容：" />
       </div>
     </div>
   );
+};
+
+// <h3 style={castStyle}>{castList.toString()}</h3>
+// <h3 style={castTitleStyle}>演員陣容：</h3>
+
+Movies.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      movieId: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
 export default Movies;
