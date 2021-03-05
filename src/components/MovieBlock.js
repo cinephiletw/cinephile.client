@@ -30,7 +30,7 @@ const MovieBlock = (props) => {
   const buttonStyle = {
     base: {
       position: 'relative',
-      marginRight: '20px',
+      marginRight: '10px',
       alignItems: 'center',
       justifyContent: 'center',
       outline: 'none',
@@ -93,8 +93,8 @@ const MovieBlock = (props) => {
   return (
     <button
       onClick={() => history.push(route)}
-      onMouseEnter={setTouch(true)}
-      onMouseLeave={setTouch(false)}
+      onMouseEnter={() => setTouch(true)}
+      onMouseLeave={() => setTouch(false)}
       className="submmit-movies"
       type="button"
       style={

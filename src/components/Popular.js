@@ -11,13 +11,50 @@ const Popular = (props) => {
   const { positionV } = props;
   const { mediaWidth } = useViewport();
 
+  // 判斷分類電影匡在不同裝置的高度
+  // width 是瀏覽器尺寸
+  // maxHeight 是海報在1024px 以上最大高度
+  // maxHeight * 0.9 為768px 以下最大高度
+  // close 的高度為maxHeight( or maxHeight * 0.9) * 0.85
+  const mediaCheck = (width, maxHeight) => {
+    let ans;
+    let transAns;
+    const secondHeight = maxHeight * 0.9;
+    if (width <= 425) {
+      ans = width * ((secondHeight) / 425);
+      transAns = width * 0.13;
+    } else if (width <= 600 && width > 425) {
+      ans = secondHeight * 0.7 + ((secondHeight * 0.3) / 175) * (width - 425);
+      transAns = width * 0.08;
+    } else if (width <= 800 && width > 600) {
+      ans = secondHeight * 0.73 + ((secondHeight * 0.27) / 200) * (width - 600);
+      transAns = width * 0.075;
+    } else if (width <= 1000 && width > 800) {
+      ans = secondHeight * 0.8 + ((secondHeight * 0.2) / 200) * (width - 800);
+      transAns = width * 0.063;
+    } else if (width <= 1200 && width > 1000) {
+      ans = secondHeight * 0.85 + ((secondHeight * 0.15) / 200) * (width - 1000);
+      transAns = maxHeight * (2 / 3) * 0.3;
+    } else {
+      ans = (maxHeight + 20) * 0.85 + (((maxHeight + 20) * 0.15) / 200) * (width - 1200);
+      transAns = maxHeight * (2 / 3) * 0.3;
+    }
+    return { ans, transAns };
+  };
+  const checkMediaOpen = mediaCheck(mediaWidth, 310);
+  const mediaHeightOpen = checkMediaOpen.ans;
+  const transWidthOpen = checkMediaOpen.transAns;
+  const checkMediaClose = mediaCheck(mediaWidth, 280);
+  const mediaHeightClose = checkMediaClose.ans;
+  const transWidthClose = checkMediaOpen.transAns;
+
   const popularStyle = {
     position: 'absolute',
     marginTop: `${positionV}`,
-    marginLeft: '3%',
-    marginRight: '3%',
-    width: '94%',
-    height: `${mediaWidth * (270 / 425)}px`,
+    marginLeft: `${mediaWidth * 0.03}px`,
+    marginRight: `${mediaWidth * 0.03 + 17}px`,
+    width: `${mediaWidth * 0.94 + 17}px`,
+    height: `${mediaHeightOpen}px`,
     backgroundColor: 'rgb(20, 20, 20)',
     borderRadius: '10px 10px 10px 10px',
     overflowX: 'hidden',
@@ -28,14 +65,14 @@ const Popular = (props) => {
   };
 
   const transpaStyle = {
-    background: 'linear-gradient(90deg, rgba(20, 20, 20, 0), rgba(20, 20, 20, 1))',
+    background: 'linear-gradient(90deg, rgba(18, 18, 18, 0), rgba(18, 18, 18, 1))',
     position: 'absolute',
     display: 'flex',
     zIndex: '3',
     right: '0px',
     top: '0px',
-    height: `${mediaWidth * (270 / 425)}px`,
-    width: `${mediaWidth * (60 / 425)}px`,
+    height: `${mediaHeightOpen}px`,
+    width: `${transWidthOpen}px`,
     overflow: 'hidden',
     borderRadius: '10px 0px 0px 10px',
     alignItems: 'center',
@@ -57,7 +94,7 @@ const Popular = (props) => {
   const iconStyle = {
     color: 'rgb(220, 220, 220)',
     height: '40px',
-    width: '25px',
+    width: `${mediaWidth * 0.05}px`,
   };
 
   // react 中props 所傳的參數是唯讀，要寫可變參數要使用 useState 用法為
@@ -67,12 +104,16 @@ const Popular = (props) => {
   const [popularData, setPopularData] = useState([0]);
   const [move, setMove] = useState(0);
 
-  // axios 是RESTful API 的使用方法用法如 fetchPopularMovies()
-  const fetchPopularMovies = () => (
-    axios.get('http://localhost:4000/popularMovies')
-      .then((res) => (res.data))
-      .catch((error) => { console.log(error); })
-  );
+  const closeSize = [
+    `${mediaHeightClose}px`,
+    `${mediaHeightClose * (2 / 3)}px`,
+    `${(mediaHeightOpen - mediaHeightClose) / 2}px`,
+  ];
+  const openSize = [
+    `${mediaHeightOpen}px`,
+    `${mediaHeightOpen * (2 / 3)}px`,
+    '0px',
+  ];
 
   const handleClick = () => {
     if (move <= 10 * document.body.clientWidth) {
@@ -80,16 +121,12 @@ const Popular = (props) => {
     }
   };
 
-  const closeSize = [
-    `${mediaWidth * (240 / 425)}px`,
-    `${mediaWidth * (160 / 425)}px`,
-    `${mediaWidth * (15 / 425)}px`,
-  ];
-  const openSize = [
-    `${mediaWidth * (270 / 425)}px`,
-    `${mediaWidth * (180 / 425)}px`,
-    '0px',
-  ];
+  // axios 是RESTful API 的使用方法用法如 fetchPopularMovies()
+  const fetchPopularMovies = () => (
+    axios.get('http://localhost:4000/popularMovies')
+      .then((res) => (res.data))
+      .catch((error) => { console.log(error); })
+  );
 
   // useEffect 為設定頁面起始，在render 執行
   useEffect(() => {

@@ -9,13 +9,12 @@ import useViewport from '../hooks/useViewport';
 // SearchBox : 搜尋
 
 const HomePage = (props) => {
-  const { mediaWidth, mediaHeight } = useViewport();
+  const { mediaWidth } = useViewport();
   const homeStyle = {
     position: 'fixed',
     top: '0',
     width: `${mediaWidth}px`,
     height: '100%',
-    // 隱藏卷軸-17像素
     left: '0px',
     backgroundColor: 'rgb(20, 20, 20)',
     overflowY: 'hidden',
@@ -31,11 +30,11 @@ const HomePage = (props) => {
     },
     mobile: {
       marginTop: '50px',
-      height: `${mediaHeight - 50}px`,
+      height: `${window.innerHeight - 50}px`,
     },
     laptop: {
       marginTop: '70px',
-      height: `${mediaHeight - 70}px`,
+      height: `${window.innerHeight - 70}px`,
     },
   };
 
@@ -45,11 +44,12 @@ const HomePage = (props) => {
       fontSize: '1.5em',
       fontWeight: '700',
       color: 'rgb(200, 200, 200)',
-      marginLeft: '6%',
+      marginLeft: '5%',
       height: '5px',
+      width: `${mediaWidth}`,
     },
     mobile: {
-      marginTop: '20px',
+      marginTop: '18px',
     },
   };
 
