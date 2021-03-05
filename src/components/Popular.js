@@ -50,7 +50,7 @@ const Popular = (props) => {
 
   const popularStyle = {
     position: 'absolute',
-    marginTop: `${positionV}`,
+    marginTop: `${(positionV - 1) * mediaHeightOpen + positionV * 60}px`,
     marginLeft: `${mediaWidth * 0.03}px`,
     marginRight: `${mediaWidth * 0.03 + 17}px`,
     width: `${mediaWidth * 0.94 + 17}px`,
@@ -165,6 +165,6 @@ const Popular = (props) => {
 // Eslint 建議使用props 時要用propTypes 限制傳入資料型態
 
 Popular.propTypes = {
-  positionV: propTypes.string.isRequired,
+  positionV: propTypes.number.isRequired,
 };
 export default Popular;

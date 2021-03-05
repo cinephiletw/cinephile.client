@@ -65,10 +65,10 @@ const HomePage = (props) => {
         }
       >
         <h2 style={{ ...popularLabel.base, ...popularLabel.mobile }}>現正熱映中</h2>
-        <Popular positionV="50px" />
-        <Popular positionV="480px" />
-        <Popular positionV="880px" />
-        <Popular positionV="1280px" />
+        <Popular positionV={1} />
+        <Popular positionV={2} />
+        <Popular positionV={3} />
+        <Popular positionV={4} />
       </div>
     </div>
   );
