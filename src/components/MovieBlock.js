@@ -30,7 +30,7 @@ const MovieBlock = (props) => {
   const buttonStyle = {
     base: {
       position: 'relative',
-      marginRight: '10px',
+      marginRight: '5px',
       alignItems: 'center',
       justifyContent: 'center',
       outline: 'none',
@@ -40,6 +40,7 @@ const MovieBlock = (props) => {
       cursor: 'pointer',
       transition: 'right 0.5s',
       right: `${move}px`,
+      padding: '0px 0px 0px 0px',
     },
     unTouch: {
       marginTop: `${closeSize[2]}`,
@@ -64,18 +65,6 @@ const MovieBlock = (props) => {
     color: 'white',
     size: 'xs',
   };
-
-  // const mouseEnter = () => {
-  //   setWidth('180px');
-  //   setHeight('270px');
-  //   setMarginTop('0px');
-  // };
-
-  //   const mouseLeave = () => {
-  //     setWidth(`${mediaWidth * (160 / 425)}px`);
-  //     setHeight(`${mediaWidth * (240 / 425)}px`);
-  //     setMarginTop(`${mediaWidth * (15 / 425)}px`);
-  //   };
 
   const route = `/movies/${id}`;
   // 因上層使用useEffect 前會先render 一次，此時海報資料還沒進來，先給個loading icon 等待useEffect 執行

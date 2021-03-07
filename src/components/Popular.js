@@ -13,48 +13,51 @@ const Popular = (props) => {
 
   // 判斷分類電影匡在不同裝置的高度
   // width 是瀏覽器尺寸
-  // maxHeight 是海報在1024px 以上最大高度
-  // maxHeight * 0.9 為768px 以下最大高度
-  // close 的高度為maxHeight( or maxHeight * 0.9) * 0.85
-  const mediaCheck = (width, maxHeight) => {
-    let ans;
-    let transAns;
-    const secondHeight = maxHeight * 0.9;
+  // maxPosterWidth 是海報最大寬度
+  const mediaCheck = (width, maxPosterWidth) => {
+    let currentPosterWidth;
+    let movieCount;
     if (width <= 425) {
-      ans = width * ((secondHeight) / 425);
-      transAns = width * 0.13;
-    } else if (width <= 600 && width > 425) {
-      ans = secondHeight * 0.7 + ((secondHeight * 0.3) / 175) * (width - 425);
-      transAns = width * 0.08;
-    } else if (width <= 800 && width > 600) {
-      ans = secondHeight * 0.73 + ((secondHeight * 0.27) / 200) * (width - 600);
-      transAns = width * 0.075;
-    } else if (width <= 1000 && width > 800) {
-      ans = secondHeight * 0.8 + ((secondHeight * 0.2) / 200) * (width - 800);
-      transAns = width * 0.063;
-    } else if (width <= 1200 && width > 1000) {
-      ans = secondHeight * 0.85 + ((secondHeight * 0.15) / 200) * (width - 1000);
-      transAns = maxHeight * (2 / 3) * 0.3;
+      currentPosterWidth = width * ((maxPosterWidth) / 425);
+      movieCount = 2;
+    } else if (width <= 650 && width > 425) {
+      currentPosterWidth = maxPosterWidth * 0.7 + ((maxPosterWidth * 0.3) / 225) * (width - 425);
+      movieCount = 3;
+    } else if (width <= 850 && width > 650) {
+      currentPosterWidth = maxPosterWidth * 0.8 + ((maxPosterWidth * 0.2) / 200) * (width - 650);
+      movieCount = 4;
+    } else if (width <= 1050 && width > 850) {
+      currentPosterWidth = maxPosterWidth * 0.8 + ((maxPosterWidth * 0.2) / 200) * (width - 850);
+      movieCount = 5;
+    } else if (width <= 1300 && width > 1050) {
+      currentPosterWidth = maxPosterWidth * 0.9 + ((maxPosterWidth * 0.1) / 250) * (width - 1050);
+      movieCount = 6;
     } else {
-      ans = (maxHeight + 20) * 0.85 + (((maxHeight + 20) * 0.15) / 200) * (width - 1200);
-      transAns = maxHeight * (2 / 3) * 0.3;
+      currentPosterWidth = (maxPosterWidth + 20) * 0.85;
+      currentPosterWidth += ((maxPosterWidth * 0.15) / 200) * (width - 1300);
+      movieCount = 7;
     }
-    return { ans, transAns };
+    return { currentPosterWidth, movieCount };
   };
   const checkMediaOpen = mediaCheck(mediaWidth, 310);
-  const mediaHeightOpen = checkMediaOpen.ans;
-  const transWidthOpen = checkMediaOpen.transAns;
-  const checkMediaClose = mediaCheck(mediaWidth, 280);
-  const mediaHeightClose = checkMediaClose.ans;
-  const transWidthClose = checkMediaOpen.transAns;
+  const mediaHeightOpen = checkMediaOpen.currentPosterWidth;
+  const checkMediaClose = mediaCheck(mediaWidth, 180);
+  const mediaHeightClose = checkMediaClose.currentPosterWidth;
+  const popularWidth = (mediaHeightClose + 5) * checkMediaClose.movieCount - 5;
 
+  const homePageMovieStyle = {
+    position: 'absolute',
+    left: '0',
+    marginTop: `${(positionV - 1) * mediaHeightOpen + positionV * 60}px`,
+    height: `${mediaHeightClose * (3 / 2)}px`,
+    width: `${mediaWidth}px`,
+  };
   const popularStyle = {
     position: 'absolute',
-    marginTop: `${(positionV - 1) * mediaHeightOpen + positionV * 60}px`,
-    marginLeft: `${mediaWidth * 0.03}px`,
-    marginRight: `${mediaWidth * 0.03 + 17}px`,
-    width: `${mediaWidth * 0.94 + 17}px`,
-    height: `${mediaHeightOpen}px`,
+    marginLeft: `${(mediaWidth - popularWidth) / 2}px`,
+    marginRight: `${((mediaWidth - popularWidth) / 2) + 17}px`,
+    width: `${popularWidth}px`,
+    height: `${mediaHeightClose * (3 / 2)}px`,
     backgroundColor: 'rgb(20, 20, 20)',
     borderRadius: '10px 10px 10px 10px',
     overflowX: 'hidden',
@@ -71,8 +74,8 @@ const Popular = (props) => {
     zIndex: '3',
     right: '0px',
     top: '0px',
-    height: `${mediaHeightOpen}px`,
-    width: `${transWidthOpen}px`,
+    height: `${mediaHeightClose * (3 / 2)}px`,
+    width: `${(mediaWidth - popularWidth) / 2}px`,
     overflow: 'hidden',
     borderRadius: '10px 0px 0px 10px',
     alignItems: 'center',
@@ -94,7 +97,7 @@ const Popular = (props) => {
   const iconStyle = {
     color: 'rgb(220, 220, 220)',
     height: '40px',
-    width: `${mediaWidth * 0.05}px`,
+    width: `${(mediaWidth - popularWidth) / 4}px`,
   };
 
   // react 中props 所傳的參數是唯讀，要寫可變參數要使用 useState 用法為
@@ -105,20 +108,18 @@ const Popular = (props) => {
   const [move, setMove] = useState(0);
 
   const closeSize = [
+    `${mediaHeightClose * (3 / 2)}px`,
     `${mediaHeightClose}px`,
-    `${mediaHeightClose * (2 / 3)}px`,
-    `${(mediaHeightOpen - mediaHeightClose) / 2}px`,
+    `${0}px`,
   ];
   const openSize = [
-    `${mediaHeightOpen}px`,
-    `${mediaHeightOpen * (2 / 3)}px`,
-    '0px',
+    `${mediaHeightClose * (3 / 2)}px`,
+    `${mediaHeightClose}px`,
+    `${0}px`,
   ];
 
-  const handleClick = () => {
-    if (move <= 10 * document.body.clientWidth) {
-      setMove(move + document.body.clientWidth * 0.94 - document.body.clientWidth * 0.94 * 0.06);
-    }
+  const handleNext = () => {
+    setMove(move + popularWidth + 5);
   };
 
   // axios 是RESTful API 的使用方法用法如 fetchPopularMovies()
@@ -141,24 +142,26 @@ const Popular = (props) => {
   }, []);
 
   return (
-    <div className="popular-movies" style={popularStyle}>
+    <div className="home-page-movies" style={homePageMovieStyle}>
       <div className="transparent" style={transpaStyle}>
-        <button type="button" style={clickStyle} onClick={handleClick}>
+        <button type="button" style={clickStyle} onClick={handleNext}>
           <div>
             <FontAwesomeIcon icon={faAngleDoubleRight} style={iconStyle} />
           </div>
         </button>
       </div>
-      { popularData.map((item) => (
-        <MovieBlock
-          img_type="poster"
-          key={item}
-          id={item}
-          move={move}
-          closeSize={closeSize}
-          openSize={openSize}
-        />
-      ))}
+      <div className="popular-movies" style={popularStyle}>
+        { popularData.map((item) => (
+          <MovieBlock
+            img_type="poster"
+            key={item}
+            id={item}
+            move={move}
+            closeSize={closeSize}
+            openSize={openSize}
+          />
+        ))}
+      </div>
     </div>
   );
 };
