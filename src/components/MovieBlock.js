@@ -7,9 +7,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const MovieBlock = (props) => {
   const { img_type } = props;
   const { id } = props;
-  const { move } = props;
-  const { closeSize } = props;
-  const { openSize } = props;
+  const { movieCount } = props;
+  const { posterSize } = props;
+  const { clickCount } = props;
   const imagePath = `http://localhost:4000/images/poster/${img_type}_path_${String(id)}.jpg`;
   const history = useHistory();
   const [touch, setTouch] = useState(false);
@@ -19,12 +19,12 @@ const MovieBlock = (props) => {
       borderRadius: '10px 10px 10px 10px',
     },
     unTouch: {
-      height: `${closeSize[0]}`,
-      width: `${closeSize[1]}`,
+      height: `${posterSize[0]}px`,
+      width: `${posterSize[1]}px`,
     },
     touch: {
-      height: `${openSize[0]}`,
-      width: `${openSize[1]}`,
+      height: `${posterSize[0]}`,
+      width: `${posterSize[1]}`,
     },
   };
   const buttonStyle = {
@@ -38,19 +38,19 @@ const MovieBlock = (props) => {
       backgroundColor: 'rgb(20, 20, 20)',
       border: 'none',
       cursor: 'pointer',
-      transition: 'right 0.5s',
-      right: `${move}px`,
+      transition: 'left 0.5s',
+      left: `${0 - (movieCount * (posterSize[1] + 5)) * clickCount}px`,
       padding: '0px 0px 0px 0px',
     },
     unTouch: {
-      marginTop: `${closeSize[2]}`,
-      height: `${closeSize[0]}`,
-      width: `${closeSize[1]}`,
+      marginTop: '0px',
+      height: `${posterSize[0]}px`,
+      width: `${posterSize[1]}px`,
     },
     touch: {
-      marginTop: `${openSize[2]}`,
-      height: `${openSize[0]}`,
-      width: `${openSize[1]}`,
+      marginTop: '0px',
+      height: `${posterSize[0]}px`,
+      width: `${posterSize[1]}px`,
     },
   };
 
@@ -108,9 +108,9 @@ const MovieBlock = (props) => {
 MovieBlock.propTypes = {
   img_type: propTypes.string.isRequired,
   id: propTypes.number.isRequired,
-  move: propTypes.number.isRequired,
-  closeSize: propTypes.arrayOf(propTypes.string.isRequired).isRequired,
-  openSize: propTypes.arrayOf(propTypes.string.isRequired).isRequired,
+  movieCount: propTypes.number.isRequired,
+  posterSize: propTypes.arrayOf(propTypes.number.isRequired).isRequired,
+  clickCount: propTypes.number.isRequired,
 };
 
 export default MovieBlock;

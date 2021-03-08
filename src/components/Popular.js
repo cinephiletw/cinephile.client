@@ -39,17 +39,15 @@ const Popular = (props) => {
     }
     return { currentPosterWidth, movieCount };
   };
-  const checkMediaOpen = mediaCheck(mediaWidth, 310);
-  const mediaHeightOpen = checkMediaOpen.currentPosterWidth;
-  const checkMediaClose = mediaCheck(mediaWidth, 180);
-  const mediaHeightClose = checkMediaClose.currentPosterWidth;
-  const popularWidth = (mediaHeightClose + 5) * checkMediaClose.movieCount - 5;
+  const checkMedia = mediaCheck(mediaWidth, 180);
+  const posterWidth = checkMedia.currentPosterWidth;
+  const popularWidth = (posterWidth + 5) * checkMedia.movieCount - 5;
 
   const homePageMovieStyle = {
     position: 'absolute',
     left: '0',
-    marginTop: `${(positionV - 1) * mediaHeightOpen + positionV * 60}px`,
-    height: `${mediaHeightClose * (3 / 2)}px`,
+    marginTop: `${(positionV - 1) * posterWidth * (3 / 2) + positionV * 60}px`,
+    height: `${posterWidth * (3 / 2)}px`,
     width: `${mediaWidth}px`,
   };
   const popularStyle = {
@@ -57,7 +55,7 @@ const Popular = (props) => {
     marginLeft: `${(mediaWidth - popularWidth) / 2}px`,
     marginRight: `${((mediaWidth - popularWidth) / 2) + 17}px`,
     width: `${popularWidth}px`,
-    height: `${mediaHeightClose * (3 / 2)}px`,
+    height: `${posterWidth * (3 / 2)}px`,
     backgroundColor: 'rgb(20, 20, 20)',
     borderRadius: '10px 10px 10px 10px',
     overflowX: 'hidden',
@@ -74,7 +72,7 @@ const Popular = (props) => {
     zIndex: '3',
     right: '0px',
     top: '0px',
-    height: `${mediaHeightClose * (3 / 2)}px`,
+    height: `${posterWidth * (3 / 2)}px`,
     width: `${(mediaWidth - popularWidth) / 2}px`,
     overflow: 'hidden',
     borderRadius: '10px 0px 0px 10px',
@@ -105,21 +103,15 @@ const Popular = (props) => {
   // state 為參數useState 為設定起始值
   // 要變更state 直接使用 setState()
   const [popularData, setPopularData] = useState([0]);
-  const [move, setMove] = useState(0);
+  const [clickCount, setClickCount] = useState(0);
 
-  const closeSize = [
-    `${mediaHeightClose * (3 / 2)}px`,
-    `${mediaHeightClose}px`,
-    `${0}px`,
-  ];
-  const openSize = [
-    `${mediaHeightClose * (3 / 2)}px`,
-    `${mediaHeightClose}px`,
-    `${0}px`,
+  const posterSize = [
+    posterWidth * (3 / 2),
+    posterWidth,
   ];
 
   const handleNext = () => {
-    setMove(move + popularWidth + 5);
+    setClickCount(clickCount + 1);
   };
 
   // axios 是RESTful API 的使用方法用法如 fetchPopularMovies()
@@ -156,9 +148,9 @@ const Popular = (props) => {
             img_type="poster"
             key={item}
             id={item}
-            move={move}
-            closeSize={closeSize}
-            openSize={openSize}
+            movieCount={checkMedia.movieCount}
+            posterSize={posterSize}
+            clickCount={clickCount}
           />
         ))}
       </div>
