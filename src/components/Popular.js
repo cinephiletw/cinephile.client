@@ -66,36 +66,57 @@ const Popular = (props) => {
   };
 
   const transpaStyle = {
-    background: 'linear-gradient(90deg, rgba(18, 18, 18, 0), rgba(18, 18, 18, 1))',
-    position: 'absolute',
-    display: 'flex',
-    zIndex: '3',
-    right: '0px',
-    top: '0px',
-    height: `${posterWidth * (3 / 2)}px`,
-    width: `${(mediaWidth - popularWidth) / 2}px`,
-    overflow: 'hidden',
-    borderRadius: '10px 0px 0px 10px',
-    alignItems: 'center',
-    justifyContent: 'center',
+    base: {
+      background: 'linear-gradient(90deg, rgba(18, 18, 18, 0), rgba(18, 18, 18, 1))',
+      position: 'absolute',
+      display: 'flex',
+      zIndex: '3',
+      top: '0px',
+      height: `${posterWidth * (3 / 2)}px`,
+      width: `${(mediaWidth - popularWidth) / 2}px`,
+      overflow: 'hidden',
+      borderRadius: '10px 0px 0px 10px',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    next: {
+      right: '0px',
+    },
+    pre: {
+      left: '0px',
+    },
   };
 
   const clickStyle = {
-    position: 'absolute',
-    right: '0px',
-    height: '100%',
-    width: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0)',
-    cursor: 'pointer',
-    outline: 'none',
-    border: 'none',
-
+    base: {
+      position: 'absolute',
+      height: '100%',
+      width: '100%',
+      backgroundColor: 'rgba(0, 0, 0, 0)',
+      cursor: 'pointer',
+      outline: 'none',
+      border: 'none',
+    },
+    next: {
+      right: '0px',
+    },
+    pre: {
+      left: '0px',
+    },
   };
 
   const iconStyle = {
-    color: 'rgb(220, 220, 220)',
-    height: '40px',
-    width: `${(mediaWidth - popularWidth) / 4}px`,
+    base: {
+      color: 'rgb(220, 220, 220)',
+      height: '40px',
+      width: `${(mediaWidth - popularWidth) / 4}px`,
+    },
+    next: {
+      transform: 'rotate(0deg)',
+    },
+    pre: {
+      transform: 'rotate(180deg)',
+    },
   };
 
   // react 中props 所傳的參數是唯讀，要寫可變參數要使用 useState 用法為
@@ -112,6 +133,10 @@ const Popular = (props) => {
 
   const handleNext = () => {
     setClickCount(clickCount + 1);
+  };
+
+  const handlePre = () => {
+    setClickCount(clickCount - 1);
   };
 
   // axios 是RESTful API 的使用方法用法如 fetchPopularMovies()
@@ -135,10 +160,21 @@ const Popular = (props) => {
 
   return (
     <div className="home-page-movies" style={homePageMovieStyle}>
-      <div className="transparent" style={transpaStyle}>
-        <button type="button" style={clickStyle} onClick={handleNext}>
+      <div
+        className="next-transparent"
+        style={{ ...transpaStyle.base, ...transpaStyle.next }}
+      >
+        <button
+          className="next-button"
+          type="button"
+          style={{ ...clickStyle.base, ...clickStyle.next }}
+          onClick={handleNext}
+        >
           <div>
-            <FontAwesomeIcon icon={faAngleDoubleRight} style={iconStyle} />
+            <FontAwesomeIcon
+              icon={faAngleDoubleRight}
+              style={{ ...iconStyle.base, ...iconStyle.next }}
+            />
           </div>
         </button>
       </div>
@@ -153,6 +189,24 @@ const Popular = (props) => {
             clickCount={clickCount}
           />
         ))}
+      </div>
+      <div
+        className="pre-transparent"
+        style={{ ...transpaStyle.base, ...transpaStyle.pre }}
+      >
+        <button
+          className="pre-button"
+          type="button"
+          style={{ ...clickStyle.base, ...clickStyle.pre }}
+          onClick={handlePre}
+        >
+          <div>
+            <FontAwesomeIcon
+              icon={faAngleDoubleRight}
+              style={{ ...iconStyle.base, ...iconStyle.pre }}
+            />
+          </div>
+        </button>
       </div>
     </div>
   );
