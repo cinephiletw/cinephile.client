@@ -8,6 +8,7 @@ const Content = (props) => {
   const contentStyle = {
     position: 'absolute',
     top: '0',
+    left: '0',
     width: '100%',
     zIndex: '3',
     fontSize: '12pt',

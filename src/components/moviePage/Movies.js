@@ -32,20 +32,17 @@ const Movies = (props) => {
     let titleTop = 0;
     let titleLeft = 0;
     let contentSize = 0;
-    let contentTop = 0;
-    if (_width <= 425) {
-      infoHeight = (450 * _width) / 425;
-      coverHeight = ((1.5 * 500) * _width) / 425;
+    if (_width <= 500) {
+      infoHeight = (450 * _width) / 500;
+      coverHeight = ((1.5 * 500) * _width) / 500;
       titleSize = (24 * _width) / 425;
       titleTop = 20;
       titleLeft = 5;
-      contentTop = 57;
-      contentSize = (13 / 425) * _width;
-    } else if (_width <= 768 && _width > 425) {
+    } else if (_width <= 768 && _width > 500) {
       contentSize = 12 + ((14 - 12) / (768 - 425)) * (_width - 425);
     }
     return {
-      infoHeight, coverHeight, titleSize, titleTop, titleLeft, contentTop, contentSize,
+      infoHeight, coverHeight, titleSize, titleTop, titleLeft, contentSize,
     };
   };
 
@@ -154,6 +151,7 @@ const Movies = (props) => {
     color: 'rgb(200, 200, 200)',
     opacity: '1',
   };
+
   // 點擊按鈕顯示的div
   const buttonShowStyle = {
     position: 'absolute',
@@ -163,17 +161,7 @@ const Movies = (props) => {
     background: '#1e2126',
     width: '90%',
     height: `${media.infoHeight * 0.4}px`,
-  };
-  // 電影公司
-  const companyStyle = {
-    position: 'absolute',
-    top: '55%',
-    left: '35%',
-    width: '60%',
-    zIndex: '3',
-    fontSize: '12.5pt',
-    color: '#FFFFFF',
-    opacity: '1',
+    overflowY: 'scroll',
   };
 
   // 接API 取得電影資訊

@@ -15,7 +15,7 @@ const CheckNames = (props) => {
     top: '0',
     left: '0',
     width: '100%',
-    fontSize: '12pt',
+    fontSize: '13pt',
     fontFamily: 'THeiti Light',
     color: 'rgb(240, 240, 240)',
   };

@@ -13,7 +13,7 @@ const ButtonGroup = (props) => {
   const { movieId } = props;
   const buttonGroupStyle = {
     mobile: {
-      marginTop: '52%',
+      marginTop: '45%',
       marginLeft: '5%',
       width: '90%',
     },
