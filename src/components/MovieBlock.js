@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import propTypes from 'prop-types';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,32 +7,51 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const MovieBlock = (props) => {
   const { img_type } = props;
   const { id } = props;
-  const { move } = props;
+  const { movieCount } = props;
+  const { posterSize } = props;
+  const { clickCount } = props;
   const imagePath = `http://localhost:4000/images/poster/${img_type}_path_${String(id)}.jpg`;
-  const [width, setWidth] = useState('160px');
-  const [height, setHeight] = useState('240px');
-  const [marginTop, setMarginTop] = useState('31px');
+  const history = useHistory();
+  const [touch, setTouch] = useState(false);
 
   const posterStyle = {
-    height: `${height}`,
-    width: `${width}`,
-    borderRadius: '10px 10px 10px 10px',
+    base: {
+      borderRadius: '10px 10px 10px 10px',
+    },
+    unTouch: {
+      height: `${posterSize[0]}px`,
+      width: `${posterSize[1]}px`,
+    },
+    touch: {
+      height: `${posterSize[0]}`,
+      width: `${posterSize[1]}`,
+    },
   };
   const buttonStyle = {
-    position: 'relative',
-    right: `${move}px`,
-    marginTop: `${marginTop}`,
-    marginRight: '20px',
-    height: `${height}`,
-    width: `${width}`,
-    alignItems: 'center',
-    justifyContent: 'center',
-    outline: 'none',
-    borderRadius: '10px 10px 10px 10px',
-    backgroundColor: 'rgb(20, 20, 20)',
-    border: 'none',
-    cursor: 'pointer',
-    transition: 'right 0.5s',
+    base: {
+      position: 'relative',
+      marginRight: '5px',
+      alignItems: 'center',
+      justifyContent: 'center',
+      outline: 'none',
+      borderRadius: '10px 10px 10px 10px',
+      backgroundColor: 'rgb(20, 20, 20)',
+      border: 'none',
+      cursor: 'pointer',
+      transition: 'left 0.5s',
+      left: `${0 - (movieCount * (posterSize[1] + 5)) * clickCount}px`,
+      padding: '0px 0px 0px 0px',
+    },
+    unTouch: {
+      marginTop: '0px',
+      height: `${posterSize[0]}px`,
+      width: `${posterSize[1]}px`,
+    },
+    touch: {
+      marginTop: '0px',
+      height: `${posterSize[0]}px`,
+      width: `${posterSize[1]}px`,
+    },
   };
 
   const iconStyle = {
@@ -45,20 +64,6 @@ const MovieBlock = (props) => {
     border: 'none',
     color: 'white',
     size: 'xs',
-  };
-
-  const mouseEnter = () => {
-    setWidth('180px');
-    setHeight('270px');
-    setMarginTop('10px');
-    console.log('mouse enter');
-  };
-
-  const mouseLeave = () => {
-    setWidth('160px');
-    setHeight('240px');
-    setMarginTop('31px');
-    console.log('mouse enter');
   };
 
   const route = `/movies/${id}`;
@@ -75,24 +80,37 @@ const MovieBlock = (props) => {
   }
   // image loaded
   return (
-    <Link to={route}>
-      <button
-        onMouseEnter={mouseEnter}
-        onMouseLeave={mouseLeave}
-        className="submmit-movies"
-        type="button"
-        style={buttonStyle}
-      >
-        <img src={imagePath} alt="592350.jpg" style={posterStyle} />
-      </button>
-    </Link>
+    <button
+      onClick={() => history.push(route)}
+      onMouseEnter={() => setTouch(true)}
+      onMouseLeave={() => setTouch(false)}
+      className="submmit-movies"
+      type="button"
+      style={
+        touch
+          ? { ...buttonStyle.base, ...buttonStyle.touch }
+          : { ...buttonStyle.base, ...buttonStyle.unTouch }
+      }
+    >
+      <img
+        src={imagePath}
+        alt="592350.jpg"
+        style={
+          touch
+            ? { ...posterStyle.base, ...posterStyle.touch }
+            : { ...posterStyle.base, ...posterStyle.unTouch }
+        }
+      />
+    </button>
   );
 };
 
 MovieBlock.propTypes = {
   img_type: propTypes.string.isRequired,
   id: propTypes.number.isRequired,
-  move: propTypes.number.isRequired,
+  movieCount: propTypes.number.isRequired,
+  posterSize: propTypes.arrayOf(propTypes.number.isRequired).isRequired,
+  clickCount: propTypes.number.isRequired,
 };
 
 export default MovieBlock;
