@@ -6,47 +6,24 @@ import CheckNames from './CheckNames';
 // 個別電影頁的cast list，判斷如果沒有資料，回傳"無"
 const NameList = (props) => {
   const { nameList } = props;
-  const { height } = props;
-  const { titleType } = props;
-  // 標題
-  const nameTitleStyle = {
-    position: 'absolute',
-    top: `${height}%`,
-    left: '35%',
-    width: '8%',
-    zIndex: '3',
-    fontSize: '12pt',
-    fontFamily: 'THeiti Light',
-    color: 'rgb(200, 200, 200)',
-    opacity: '1',
-  };
-
   // 名單
   const nameStyle = {
     position: 'absolute',
-    top: `${height}%`,
-    left: '42%',
-    width: '55%',
-    zIndex: '3',
+    top: '0',
+    left: '0',
+    width: '100%',
     fontSize: '12pt',
     fontFamily: 'THeiti Light',
-    color: '#FFFFFF',
-    opacity: '1',
+    color: 'rgb(240, 240, 240)',
   };
 
   if (nameList[0] === null) {
     return (
-      <div>
-        <h3 style={nameStyle}>無</h3>
-        <h3 style={nameTitleStyle}>{titleType}</h3>
-      </div>
+      <h3 style={nameStyle}>無</h3>
     );
   }
   return (
-    <div>
-      <CheckNames names={nameList} height={height} />
-      <h3 style={nameTitleStyle}>{titleType}</h3>
-    </div>
+    <CheckNames names={nameList} />
   );
 };
 
@@ -55,8 +32,6 @@ NameList.propTypes = {
     propTypes.arrayOf(propTypes.string).isRequired,
     propTypes.arrayOf(propTypes.object).isRequired,
   ]).isRequired,
-  height: propTypes.string.isRequired,
-  titleType: propTypes.string.isRequired,
 };
 
 export default NameList;
