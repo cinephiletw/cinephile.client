@@ -12,15 +12,13 @@ const ButtonGroup = (props) => {
   const { mediaWidth } = props;
   const { movieId } = props;
   const buttonGroupStyle = {
-    mobile: {
-      marginTop: '45%',
-      marginLeft: '5%',
-      width: '90%',
-    },
+    marginTop: '45%',
+    marginLeft: '5%',
+    width: '90%',
   };
 
   return (
-    <div className="button-group" style={buttonGroupStyle.mobile}>
+    <div className="button-group" style={buttonGroupStyle}>
       <Button buttonName="簡介" mediaWidth={mediaWidth} movieId={movieId} buttonType="content" />
       <Button buttonName="演員" mediaWidth={mediaWidth} movieId={movieId} buttonType="cast" />
       <Button buttonName="出版" mediaWidth={mediaWidth} movieId={movieId} buttonType="publish" />

@@ -10,14 +10,13 @@ const Button = (props) => {
   const { buttonType } = props;
 
   const buttonMovieStyle = {
-    mobile: {
+    base: {
       float: 'left',
       width: '25%',
       color: `${color}`,
       fontSize: '12pt',
       fontFamily: 'Microsoft YaHei',
       fontWeight: 'bold',
-      background: '#1e2126',
       borderBottom: 'solid',
       borderRight: 'none',
       borderTop: 'none',
@@ -25,6 +24,12 @@ const Button = (props) => {
       paddingBottom: '3px',
       boxShadow: '10px 10px 10px rgba(20, 20, 20, 0.8)',
       outline: 'none',
+    },
+    mobile: {
+      background: '#1e2126',
+    },
+    tablet: {
+      background: 'rgb(15, 15, 15)',
     },
   };
   const match = useRouteMatch();
@@ -34,7 +39,11 @@ const Button = (props) => {
       <button
         className="button-overview"
         type="button"
-        style={buttonMovieStyle.mobile}
+        style={
+          mediaWidth < 600
+            ? { ...buttonMovieStyle.base, ...buttonMovieStyle.mobile }
+            : { ...buttonMovieStyle.base, ...buttonMovieStyle.tablet }
+          }
         onMouseEnter={() => { setColor('rgb(255, 204, 0)'); }}
         onMouseLeave={() => { setColor('rgb(80, 80, 80)'); }}
       >

@@ -25,144 +25,224 @@ const Movies = (props) => {
     return { posterWidth, posterHeight };
   };
 
-  const checkMedia = (_width) => {
-    let infoHeight = 0;
-    let coverHeight = 0;
-    let titleSize = 0;
-    let titleTop = 0;
-    let titleLeft = 0;
-    let contentSize = 0;
-    if (_width <= 500) {
-      infoHeight = (450 * _width) / 500;
-      coverHeight = ((1.5 * 500) * _width) / 500;
-      titleSize = (24 * _width) / 425;
-      titleTop = 20;
-      titleLeft = 5;
-    } else if (_width <= 768 && _width > 500) {
-      contentSize = 12 + ((14 - 12) / (768 - 425)) * (_width - 425);
-    }
-    return {
-      infoHeight, coverHeight, titleSize, titleTop, titleLeft, contentSize,
-    };
-  };
-
-  const media = checkMedia(mediaWidth);
   // layout
-  const moviePageStyle = {
+  const layoutStyle = {
     position: 'fixed',
     top: '0',
     width: `${mediaWidth}px`,
     height: '100%',
     left: '0px',
     backgroundColor: 'rgb(0, 0, 0)',
-    overflowY: 'scroll',
     overflowX: 'hidden',
   };
+
   // 主容器
   const coverStyle = {
     base: {
-      background: 'rgb(0, 0, 0)',
-      position: 'absolute',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      zIndex: '1',
-      height: '80%',
-      width: '80%',
-      overflow: 'hidden',
-    },
-    // 螢幕寬小於550px
-    mobile: {
-      background: 'rgb(0, 0, 0)',
       top: '0',
       marginLeft: '0',
+      background: 'rgb(0, 0, 0)',
       right: '-17px',
       position: 'absolute',
-      height: `${media.coverHeight}px`,
       display: 'flex',
       flexDirection: 'column',
-      width: `${mediaWidth + 17}px`,
       overflowX: 'hidden',
       overflowY: 'scroll',
     },
+    mobile: {
+      height: '100%',
+      width: `${mediaWidth + 17}px`,
+    },
     tablet: {
+      height: `${(533 / 800) * mediaWidth * 1.6}px`,
+      width: `${mediaWidth + 17}px`,
     },
     laptop: {
     },
   };
+
   // 背景照片
   const backDropStyle = {
-    // 螢幕寬小於 650px
-    mobile: {
+    base: {
       position: 'relative',
+      zIndex: '1',
+    },
+    mobile: {
       top: '0',
       left: '0',
       height: `${(533 / 800) * mediaWidth}px`,
       width: `${mediaWidth}px`,
-      zIndex: '1',
+    },
+    tablet: {
+      top: `${(mediaWidth - 600) / 2}px`,
+      left: `${(mediaWidth - 600) / 2}px`,
+      height: `${(533 / 800) * 600}px`,
+      width: `${600}px`,
     },
   };
+
   // 漸層
   const transpaStyle = {
-    background: 'linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 1))',
-    position: 'absolute',
-    top: '0',
-    left: '0',
-    zIndex: '2',
-    height: `${(533 / 800) * mediaWidth}px`,
-    width: `${mediaWidth}px`,
-  };
-  // 海報
-  const posterStyle = {
-    // 螢幕寬小於550px
-    mobile: {
+    base: {
+      background: 'linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 1))',
       position: 'absolute',
-      left: '10%',
-      top: `${(533 / 800) * mediaWidth * 0.4}px`,
-      borderRadius: '10px 10px 10px 10px',
-      height: `${posterSize().posterHeight}px`,
-      width: `${posterSize().posterWidth}px`,
-      boxShadow: '20px 20px 20px rgba(20, 20, 20, 0.7)',
-      zIndex: '4',
+      zIndex: '2',
+    },
+    mobile: {
+      top: '0',
+      left: '0',
+      height: `${(533 / 800) * mediaWidth}px`,
+      width: `${mediaWidth}px`,
+    },
+    tablet: {
+      top: `${(mediaWidth - 600) / 2}px`,
+      left: `${(mediaWidth - 600) / 2}px`,
+      height: `${(533 / 800) * 600}px`,
+      width: `${600}px`,
     },
   };
 
   // 資訊欄
   const infoStyle = {
-    top: `${(533 / 800) * mediaWidth * 0.9}px`,
-    position: 'absolute',
-    width: `${mediaWidth * 0.9}px`,
-    height: `${media.infoHeight}px`,
-    left: `${mediaWidth * 0.05}px`,
-    background: '#1e2126',
-    boxShadow: '10px 10px 10px rgba(20, 20, 20, 0.8)',
-    borderRadius: '30px 30px 30px 30px',
-    zIndex: '3',
+    base: {
+      position: 'absolute',
+      borderRadius: '30px 30px 30px 30px',
+      zIndex: '3',
+    },
+    mobile: {
+      top: `${(533 / 800) * mediaWidth * 0.9}px`,
+      width: `${mediaWidth * 0.9}px`,
+      height: `${(450 * mediaWidth) / 500}px`,
+      left: `${mediaWidth * 0.05}px`,
+      background: '#1e2126',
+      boxShadow: '10px 10px 10px rgba(20, 20, 20, 0.8)',
+    },
+    tablet: {
+      top: `${(533 / 800) * 600 * 0.9 + ((mediaWidth - 600) / 2)}px`,
+      width: `${600 * 0.9}px`,
+      height: `${(450 * 600) / 500}px`,
+      left: `${600 * 0.05 + ((mediaWidth - 600) / 2)}px`,
+      background: 'rgb(15, 15, 15)',
+    },
+  };
+
+  // 海報
+  const posterStyle = {
+    base: {
+      position: 'absolute',
+      boxShadow: '20px 20px 20px rgba(20, 20, 20, 0.7)',
+      borderRadius: '10px 10px 10px 10px',
+      zIndex: '4',
+    },
+    mobile: {
+      left: '10%',
+      top: `${(533 / 800) * mediaWidth * 0.4}px`,
+      width: `${(200 / 550) * mediaWidth}px`,
+      height: `${(300 / 550) * mediaWidth}px`,
+    },
+    tablet: {
+      left: `${600 * 0.1 + ((mediaWidth - 600) / 2)}px`,
+      top: `${(533 / 800) * 600 * 0.6 + ((mediaWidth - 600) / 2)}px`,
+      width: `${(200 / 550) * 600}px`,
+      height: `${(300 / 550) * 600}px`,
+    },
   };
 
   // 標題
   const titleStyle = {
-    position: 'absolute',
-    top: `${media.titleTop}%`,
-    width: `${mediaWidth * 0.9}`,
-    left: `${media.titleLeft}%`,
-    zIndex: '3',
-    fontSize: `${media.titleSize}pt`,
-    color: 'rgb(200, 200, 200)',
-    opacity: '1',
+    base: {
+      position: 'absolute',
+      zIndex: '3',
+      color: 'rgb(200, 200, 200)',
+      opacity: '1',
+    },
+    mobile: {
+      top: '20%',
+      width: `${mediaWidth * 0.9}px`,
+      left: '5%',
+      fontSize: `${(24 * mediaWidth) / 425}pt`,
+    },
+    tablet: {
+      top: '20%',
+      width: `${250}px`,
+      left: '50%',
+      fontSize: `${26}pt`,
+    },
   };
 
   // 點擊按鈕顯示的div
   const buttonShowStyle = {
-    position: 'absolute',
-    top: '55%',
-    marginLeft: '5%',
-    marginRight: '5%',
-    background: '#1e2126',
-    width: '90%',
-    height: `${media.infoHeight * 0.4}px`,
-    overflowY: 'scroll',
+    base: {
+      overflowY: 'scroll',
+      position: 'absolute',
+    },
+    mobile: {
+      top: '55%',
+      marginLeft: '5%',
+      marginRight: '5%',
+      width: '90%',
+      height: `${((450 * mediaWidth) / 500) * 0.4}px`,
+      background: '#1e2126',
+    },
+    tablet: {
+      top: '55%',
+      marginLeft: '5%',
+      marginRight: '5%',
+      width: '90%',
+      height: `${((450 * 600) / 500) * 0.4}px`,
+      background: 'rgb(15, 15, 15)',
+    },
   };
+
+  const styleObjects = (
+    _width,
+    _coverStyle,
+    _backDropStyle,
+    _transpaStyle,
+    _posterStyle,
+    _infoStyle,
+    _titleStyle,
+    _buttonShowStyle,
+  ) => {
+    let cover = {};
+    let backdrop = {};
+    let transpa = {};
+    let poster = {};
+    let info = {};
+    let title = {};
+    let buttonShow;
+    if (_width <= 600) {
+      cover = { ..._coverStyle.base, ..._coverStyle.mobile };
+      backdrop = { ..._backDropStyle.base, ..._backDropStyle.mobile };
+      transpa = { ..._transpaStyle.base, ..._transpaStyle.mobile };
+      poster = { ..._posterStyle.base, ..._posterStyle.mobile };
+      info = { ..._infoStyle.base, ..._infoStyle.mobile };
+      title = { ..._titleStyle.base, ..._titleStyle.mobile };
+      buttonShow = { ..._buttonShowStyle.base, ..._buttonShowStyle.mobile };
+    } else if (_width <= 800 && _width > 600) {
+      cover = { ..._coverStyle.base, ..._coverStyle.tablet };
+      backdrop = { ..._backDropStyle.base, ..._backDropStyle.tablet };
+      transpa = { ..._transpaStyle.base, ..._transpaStyle.tablet };
+      poster = { ..._posterStyle.base, ..._posterStyle.tablet };
+      info = { ..._infoStyle.base, ..._infoStyle.tablet };
+      title = { ..._titleStyle.base, ..._titleStyle.tablet };
+      buttonShow = { ..._buttonShowStyle.base, ..._buttonShowStyle.tablet };
+    }
+    return {
+      cover, backdrop, transpa, poster, info, title, buttonShow,
+    };
+  };
+
+  const moviePageStyle = styleObjects(
+    mediaWidth,
+    coverStyle,
+    backDropStyle,
+    transpaStyle,
+    posterStyle,
+    infoStyle,
+    titleStyle,
+    buttonShowStyle,
+  );
 
   // 接API 取得電影資訊
   const fetchMoviesData = () => (
@@ -184,27 +264,27 @@ const Movies = (props) => {
   }, []);
 
   return (
-    <div style={moviePageStyle}>
-      <div style={coverStyle.mobile}>
-        <img src={backDropPath} alt="backdrop" style={backDropStyle.mobile} />
-        <div style={transpaStyle} />
-        <img src={posterPath} alt="poster" style={posterStyle.mobile} />
-        <div style={infoStyle}>
-          <h3 style={titleStyle}>{movieInfo.title}</h3>
+    <div style={layoutStyle}>
+      <div style={moviePageStyle.cover}>
+        <img src={backDropPath} alt="backdrop" style={moviePageStyle.backdrop} />
+        <div style={moviePageStyle.transpa} />
+        <img src={posterPath} alt="poster" style={moviePageStyle.poster} />
+        <div style={moviePageStyle.info}>
+          <h3 style={moviePageStyle.title}>{movieInfo.title}</h3>
           <ButtonGroup mediaWidth={mediaWidth} movieId={match.params.movieId} />
-          <div style={buttonShowStyle}>
+          <div style={moviePageStyle.buttonShow}>
             <Switch>
               <Route
                 path="/movies/:movieId/content/"
-                component={() => <Content content={movieInfo.content} />}
+                component={() => <Content content={movieInfo.content} mediaWidth={mediaWidth} />}
               />
               <Route
                 path="/movies/:movieId/cast/"
-                component={() => <NameList nameList={castInfo} />}
+                component={() => <NameList nameList={castInfo} mediaWidth={mediaWidth} />}
               />
               <Route
                 path="/movies/:movieId/publish/"
-                component={() => <NameList nameList={directorInfo} />}
+                component={() => <NameList nameList={directorInfo} mediaWidth={mediaWidth} />}
               />
             </Switch>
           </div>
