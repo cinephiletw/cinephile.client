@@ -12,7 +12,7 @@ import NameList from './NameList';
 const Movies = (props) => {
   // 參數網址
   const { match } = props;
-  const { mediaWidth } = useViewport();
+  const { mediaWidth, mediaHeight } = useViewport();
   const [movieInfo, setMovieInfo] = useState([{ title: 'loading', content: 'loading' }]);
   const [castInfo, setCastInfo] = useState([null]);
   const [directorInfo, setDirectorInfo] = useState([null]);
@@ -30,7 +30,7 @@ const Movies = (props) => {
     position: 'fixed',
     top: '0',
     width: `${mediaWidth}px`,
-    height: '100%',
+    height: `${mediaHeight}px`,
     left: '0px',
     backgroundColor: 'rgb(0, 0, 0)',
     overflowX: 'hidden',
@@ -39,25 +39,34 @@ const Movies = (props) => {
   // 主容器
   const coverStyle = {
     base: {
-      top: '0',
-      marginLeft: '0',
       background: 'rgb(0, 0, 0)',
-      right: '-17px',
       position: 'absolute',
       display: 'flex',
       flexDirection: 'column',
       overflowX: 'hidden',
-      overflowY: 'scroll',
     },
     mobile: {
       height: '100%',
       width: `${mediaWidth + 17}px`,
+      top: '0',
+      marginLeft: '0',
+      right: '-17px',
+      overflowY: 'scroll',
     },
     tablet: {
-      height: `${(533 / 800) * mediaWidth * 1.6}px`,
+      height: `${(533 / 800) * mediaWidth * 2.2}px`,
       width: `${mediaWidth + 17}px`,
+      top: '0',
+      marginLeft: '0',
+      right: '-17px',
+      overflowY: 'scroll',
     },
     laptop: {
+      height: `${533}px`,
+      width: `${mediaWidth + 17}px`,
+      right: '-17px',
+      top: `${(mediaHeight - 533) / 2}px`,
+      overflowY: 'scroll',
     },
   };
 
@@ -79,6 +88,11 @@ const Movies = (props) => {
       height: `${(533 / 800) * 600}px`,
       width: `${600}px`,
     },
+    laptop: {
+      height: '533px',
+      width: '800px',
+      left: `${((mediaWidth - 800) / 2)}px`,
+    },
   };
 
   // 漸層
@@ -99,6 +113,41 @@ const Movies = (props) => {
       left: `${(mediaWidth - 600) / 2}px`,
       height: `${(533 / 800) * 600}px`,
       width: `${600}px`,
+    },
+    laptop: {
+      height: '533px',
+      width: '800px',
+      left: `${((mediaWidth - 800) / 2)}px`,
+    },
+  };
+
+  // 海報
+  const posterStyle = {
+    base: {
+      position: 'absolute',
+      borderRadius: '10px 10px 10px 10px',
+      zIndex: '4',
+    },
+    mobile: {
+      boxShadow: '20px 20px 20px rgba(20, 20, 20, 0.7)',
+      left: '10%',
+      top: `${(533 / 800) * mediaWidth * 0.4}px`,
+      width: `${(200 / 550) * mediaWidth}px`,
+      height: `${(300 / 550) * mediaWidth}px`,
+    },
+    tablet: {
+      boxShadow: '20px 20px 20px rgba(20, 20, 20, 0.7)',
+      left: `${600 * 0.1 + ((mediaWidth - 600) / 2)}px`,
+      top: `${(533 / 800) * 600 * 0.6 + ((mediaWidth - 600) / 2)}px`,
+      width: `${(200 / 550) * 600}px`,
+      height: `${(300 / 550) * 600}px`,
+    },
+    laptop: {
+      boxShadow: '30px 30px 30px rgba(0, 0, 0, 0.9)',
+      left: `${((mediaWidth - 800) / 2) + 70}px`,
+      top: `${140}px`,
+      height: '300px',
+      width: '200px',
     },
   };
 
@@ -124,27 +173,12 @@ const Movies = (props) => {
       left: `${600 * 0.05 + ((mediaWidth - 600) / 2)}px`,
       background: 'rgb(15, 15, 15)',
     },
-  };
-
-  // 海報
-  const posterStyle = {
-    base: {
-      position: 'absolute',
-      boxShadow: '20px 20px 20px rgba(20, 20, 20, 0.7)',
-      borderRadius: '10px 10px 10px 10px',
-      zIndex: '4',
-    },
-    mobile: {
-      left: '10%',
-      top: `${(533 / 800) * mediaWidth * 0.4}px`,
-      width: `${(200 / 550) * mediaWidth}px`,
-      height: `${(300 / 550) * mediaWidth}px`,
-    },
-    tablet: {
-      left: `${600 * 0.1 + ((mediaWidth - 600) / 2)}px`,
-      top: `${(533 / 800) * 600 * 0.6 + ((mediaWidth - 600) / 2)}px`,
-      width: `${(200 / 550) * 600}px`,
-      height: `${(300 / 550) * 600}px`,
+    laptop: {
+      width: `${700}px`,
+      height: '450px',
+      left: `${((mediaWidth - 800) / 2) + 50}px`,
+      top: '80px',
+      background: 'rgba(0, 0, 0, 0.4)',
     },
   };
 
@@ -163,10 +197,46 @@ const Movies = (props) => {
       fontSize: `${(24 * mediaWidth) / 425}pt`,
     },
     tablet: {
-      top: '20%',
+      top: '15%',
       width: `${250}px`,
       left: '50%',
       fontSize: `${26}pt`,
+    },
+    laptop: {
+      top: '20px',
+      width: '70%',
+      left: '250px',
+      fontSize: `${26}pt`,
+    },
+  };
+
+  const hideScrollStyle = {
+    base: {
+      overflowX: 'hidden',
+      overflowY: 'hidden',
+      position: 'absolute',
+      padding: '0px, 0px, 0px, 0px',
+    },
+    mobile: {
+      top: '55%',
+      left: `${mediaWidth * 0.05 * 0.9}px`,
+      width: `${mediaWidth * 0.9 * 0.9}px`,
+      height: `${((450 * mediaWidth) / 500) * 0.4}px`,
+      background: '#1e2126',
+    },
+    tablet: {
+      top: '55%',
+      left: `${600 * 0.05 * 0.9}px`,
+      width: `${600 * 0.9 * 0.9}px`,
+      height: `${((450 * 600) / 500) * 0.4}px`,
+      background: 'rgb(15, 15, 15)',
+    },
+    laptop: {
+      top: '45%',
+      left: '260px',
+      width: `${800 * 0.5}px`,
+      height: `${((450 * 600) / 500) * 0.4}px`,
+      background: 'rgba(15, 15, 15, 0)',
     },
   };
 
@@ -174,23 +244,29 @@ const Movies = (props) => {
   const buttonShowStyle = {
     base: {
       overflowY: 'scroll',
+      overflowX: 'hidden',
       position: 'absolute',
     },
     mobile: {
-      top: '55%',
-      marginLeft: '5%',
-      marginRight: '5%',
-      width: '90%',
+      top: '0',
+      right: '-17px',
+      width: `${mediaWidth * 0.9 * 0.9 + 17}px`,
       height: `${((450 * mediaWidth) / 500) * 0.4}px`,
       background: '#1e2126',
     },
     tablet: {
-      top: '55%',
-      marginLeft: '5%',
-      marginRight: '5%',
-      width: '90%',
+      top: '0',
+      right: '-17px',
+      width: `${600 * 0.9 * 0.9 + 17}px`,
       height: `${((450 * 600) / 500) * 0.4}px`,
       background: 'rgb(15, 15, 15)',
+    },
+    laptop: {
+      top: '0',
+      right: '-17px',
+      width: `${800 * 0.5 + 17}px`,
+      height: `${((450 * 600) / 500) * 0.4}px`,
+      background: 'rgba(15, 15, 15, 0)',
     },
   };
 
@@ -203,6 +279,7 @@ const Movies = (props) => {
     _infoStyle,
     _titleStyle,
     _buttonShowStyle,
+    _hideScrollStyle,
   ) => {
     let cover = {};
     let backdrop = {};
@@ -210,7 +287,8 @@ const Movies = (props) => {
     let poster = {};
     let info = {};
     let title = {};
-    let buttonShow;
+    let buttonShow = {};
+    let hideScroll = {};
     if (_width <= 600) {
       cover = { ..._coverStyle.base, ..._coverStyle.mobile };
       backdrop = { ..._backDropStyle.base, ..._backDropStyle.mobile };
@@ -219,6 +297,7 @@ const Movies = (props) => {
       info = { ..._infoStyle.base, ..._infoStyle.mobile };
       title = { ..._titleStyle.base, ..._titleStyle.mobile };
       buttonShow = { ..._buttonShowStyle.base, ..._buttonShowStyle.mobile };
+      hideScroll = { ..._hideScrollStyle.base, ..._hideScrollStyle.mobile };
     } else if (_width <= 800 && _width > 600) {
       cover = { ..._coverStyle.base, ..._coverStyle.tablet };
       backdrop = { ..._backDropStyle.base, ..._backDropStyle.tablet };
@@ -227,9 +306,19 @@ const Movies = (props) => {
       info = { ..._infoStyle.base, ..._infoStyle.tablet };
       title = { ..._titleStyle.base, ..._titleStyle.tablet };
       buttonShow = { ..._buttonShowStyle.base, ..._buttonShowStyle.tablet };
+      hideScroll = { ..._hideScrollStyle.base, ..._hideScrollStyle.tablet };
+    } else if (_width <= 1024 && _width > 800) {
+      cover = { ..._coverStyle.base, ..._coverStyle.laptop };
+      backdrop = { ..._backDropStyle.base, ..._backDropStyle.laptop };
+      transpa = { ..._transpaStyle.base, ..._transpaStyle.laptop };
+      poster = { ..._posterStyle.base, ..._posterStyle.laptop };
+      info = { ..._infoStyle.base, ..._infoStyle.laptop };
+      title = { ..._titleStyle.base, ..._titleStyle.laptop };
+      buttonShow = { ..._buttonShowStyle.base, ..._buttonShowStyle.laptop };
+      hideScroll = { ..._hideScrollStyle.base, ..._hideScrollStyle.laptop };
     }
     return {
-      cover, backdrop, transpa, poster, info, title, buttonShow,
+      cover, backdrop, transpa, poster, info, title, buttonShow, hideScroll,
     };
   };
 
@@ -242,6 +331,7 @@ const Movies = (props) => {
     infoStyle,
     titleStyle,
     buttonShowStyle,
+    hideScrollStyle,
   );
 
   // 接API 取得電影資訊
@@ -264,29 +354,31 @@ const Movies = (props) => {
   }, []);
 
   return (
-    <div style={layoutStyle}>
-      <div style={moviePageStyle.cover}>
-        <img src={backDropPath} alt="backdrop" style={moviePageStyle.backdrop} />
-        <div style={moviePageStyle.transpa} />
+    <div className="movie-page-layout" style={layoutStyle}>
+      <div className="movie-page-cover" style={moviePageStyle.cover}>
+        <img className="backdrop-img" src={backDropPath} alt="backdrop" style={moviePageStyle.backdrop} />
+        <div className="movie-page-cover" style={moviePageStyle.transpa} />
         <img src={posterPath} alt="poster" style={moviePageStyle.poster} />
         <div style={moviePageStyle.info}>
           <h3 style={moviePageStyle.title}>{movieInfo.title}</h3>
           <ButtonGroup mediaWidth={mediaWidth} movieId={match.params.movieId} />
-          <div style={moviePageStyle.buttonShow}>
-            <Switch>
-              <Route
-                path="/movies/:movieId/content/"
-                component={() => <Content content={movieInfo.content} mediaWidth={mediaWidth} />}
-              />
-              <Route
-                path="/movies/:movieId/cast/"
-                component={() => <NameList nameList={castInfo} mediaWidth={mediaWidth} />}
-              />
-              <Route
-                path="/movies/:movieId/publish/"
-                component={() => <NameList nameList={directorInfo} mediaWidth={mediaWidth} />}
-              />
-            </Switch>
+          <div style={moviePageStyle.hideScroll}>
+            <div style={moviePageStyle.buttonShow}>
+              <Switch>
+                <Route
+                  path="/movies/:movieId/content/"
+                  component={() => <Content content={movieInfo.content} mediaWidth={mediaWidth} />}
+                />
+                <Route
+                  path="/movies/:movieId/cast/"
+                  component={() => <NameList nameList={castInfo} mediaWidth={mediaWidth} />}
+                />
+                <Route
+                  path="/movies/:movieId/publish/"
+                  component={() => <NameList nameList={directorInfo} mediaWidth={mediaWidth} />}
+                />
+              </Switch>
+            </div>
           </div>
         </div>
       </div>

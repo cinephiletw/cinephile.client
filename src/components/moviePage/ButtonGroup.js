@@ -12,13 +12,30 @@ const ButtonGroup = (props) => {
   const { mediaWidth } = props;
   const { movieId } = props;
   const buttonGroupStyle = {
-    marginTop: '45%',
-    marginLeft: '5%',
-    width: '90%',
+    mobile: {
+      marginTop: '45%',
+      marginLeft: '5%',
+      width: '90%',
+    },
+    laptop: {
+      marginTop: '25%',
+      marginLeft: '35%',
+      width: '60%',
+    },
+  };
+
+  const buttonStyleObject = (_width, _buttonGroupStyle) => {
+    let buttonGroup = {};
+    if (_width <= 800) {
+      buttonGroup = _buttonGroupStyle.mobile;
+    } else if (_width > 800) {
+      buttonGroup = _buttonGroupStyle.laptop;
+    }
+    return buttonGroup;
   };
 
   return (
-    <div className="button-group" style={buttonGroupStyle}>
+    <div className="button-group" style={buttonStyleObject(mediaWidth, buttonGroupStyle)}>
       <Button buttonName="簡介" mediaWidth={mediaWidth} movieId={movieId} buttonType="content" />
       <Button buttonName="演員" mediaWidth={mediaWidth} movieId={movieId} buttonType="cast" />
       <Button buttonName="出版" mediaWidth={mediaWidth} movieId={movieId} buttonType="publish" />

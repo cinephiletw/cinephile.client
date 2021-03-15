@@ -11,7 +11,6 @@ const Content = (props) => {
       position: 'absolute',
       top: '0',
       left: '0',
-      width: '100%',
       zIndex: '3',
       fontFamily: 'THeiti Light',
       opacity: '1',
@@ -19,21 +18,34 @@ const Content = (props) => {
     mobile: {
       color: 'rgb(240, 240, 240)',
       fontSize: '12pt',
+      width: `${mediaWidth * 0.9 * 0.9}px`,
     },
     tablet: {
       color: 'rgb(220, 220, 220)',
       fontSize: '14pt',
+      width: `${600 * 0.9 * 0.9}px`,
+    },
+    laptop: {
+      color: 'rgb(220, 220, 220)',
+      fontSize: '14pt',
+      width: `${800 * 0.5}px`,
     },
   };
 
+  const mediaContent = (_width, _contentStyle) => {
+    let cont = {};
+    if (_width <= 600) {
+      cont = { ..._contentStyle.base, ..._contentStyle.mobile };
+    } else if (_width <= 800 && _width > 600) {
+      cont = { ..._contentStyle.base, ..._contentStyle.tablet };
+    } else if (_width <= 1024 && _width > 800) {
+      cont = { ..._contentStyle.base, ..._contentStyle.laptop };
+    }
+    return cont;
+  };
+
   return (
-    <h1
-      style={
-        mediaWidth < 600
-          ? { ...contentStyle.base, ...contentStyle.mobile }
-          : { ...contentStyle.base, ...contentStyle.tablet }
-      }
-    >
+    <h1 style={mediaContent(mediaWidth, contentStyle)}>
       {content}
     </h1>
   );

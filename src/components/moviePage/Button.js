@@ -22,15 +22,31 @@ const Button = (props) => {
       borderTop: 'none',
       borderLeft: 'none',
       paddingBottom: '3px',
-      boxShadow: '10px 10px 10px rgba(20, 20, 20, 0.8)',
       outline: 'none',
     },
     mobile: {
       background: '#1e2126',
+      boxShadow: '10px 10px 10px rgba(20, 20, 20, 0.8)',
     },
     tablet: {
       background: 'rgb(15, 15, 15)',
+      boxShadow: '10px 10px 10px rgba(20, 20, 20, 0.8)',
     },
+    laptop: {
+      background: 'rgba(15, 15, 15, 0)',
+    },
+  };
+
+  const buttonMovieObject = (_width, _buttonMovieStyle) => {
+    let buttonMovie = {};
+    if (_width <= 600) {
+      buttonMovie = { ..._buttonMovieStyle.base, ..._buttonMovieStyle.mobile };
+    } else if (_width <= 800 && _width > 600) {
+      buttonMovie = { ..._buttonMovieStyle.base, ..._buttonMovieStyle.tablet };
+    } else if (_width <= 1024 && _width > 800) {
+      buttonMovie = { ..._buttonMovieStyle.base, ..._buttonMovieStyle.laptop };
+    }
+    return buttonMovie;
   };
   const match = useRouteMatch();
 
@@ -39,13 +55,9 @@ const Button = (props) => {
       <button
         className="button-overview"
         type="button"
-        style={
-          mediaWidth < 600
-            ? { ...buttonMovieStyle.base, ...buttonMovieStyle.mobile }
-            : { ...buttonMovieStyle.base, ...buttonMovieStyle.tablet }
-          }
-        onMouseEnter={() => { setColor('rgb(255, 204, 0)'); }}
-        onMouseLeave={() => { setColor('rgb(80, 80, 80)'); }}
+        style={buttonMovieObject(mediaWidth, buttonMovieStyle)}
+        onFocus={() => { setColor('rgb(255, 204, 0)'); }}
+        onBlur={() => { setColor('rgb(80, 80, 80)'); }}
       >
         {buttonName}
       </button>
