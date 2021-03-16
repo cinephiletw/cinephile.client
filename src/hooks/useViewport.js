@@ -8,6 +8,7 @@ const useViewport = () => {
     const handleWindowResize = () => {
       setMediaWidth(window.innerWidth);
       setMediaHeight(window.innerHeight);
+
     };
     window.addEventListener('resize', handleWindowResize);
     return () => window.removeEventListener('resize', handleWindowResize);

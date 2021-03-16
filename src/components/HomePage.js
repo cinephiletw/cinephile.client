@@ -15,20 +15,61 @@ const HomePage = (props) => {
     top: '0',
     width: `${mediaWidth}px`,
     height: '100%',
-    // 隱藏卷軸-17像素
     left: '0px',
-    right: '-17px',
     backgroundColor: 'rgb(20, 20, 20)',
-    overflowY: 'scroll',
+    overflowY: 'hidden',
+  };
+
+  const homeMovieStyle = {
+    base: {
+      position: 'fixed',
+      width: `${mediaWidth + 17}px`,
+      overflowY: 'scroll',
+      right: '-17px',
+      display: 'flex',
+    },
+    mobile: {
+      marginTop: '50px',
+      height: `${window.innerHeight - 50}px`,
+    },
+    laptop: {
+      marginTop: '70px',
+      height: `${window.innerHeight - 70}px`,
+    },
+  };
+
+  const popularLabel = {
+    base: {
+      fontFamily: 'sans-serif',
+      fontSize: '1.5em',
+      fontWeight: '700',
+      color: 'rgb(200, 200, 200)',
+      marginLeft: '5%',
+      height: '5px',
+      width: `${mediaWidth}`,
+    },
+    mobile: {
+      marginTop: '18px',
+    },
   };
 
   return (
     <div className="layout" style={homeStyle}>
       <NavBar />
-      <Popular positionV="80px" />
-      <Popular positionV="480px" />
-      <Popular positionV="880px" />
-      <Popular positionV="1280px" />
+      <div
+        className="homePageMovieBlock"
+        style={
+          mediaWidth < 1024
+            ? { ...homeMovieStyle.base, ...homeMovieStyle.mobile }
+            : { ...homeMovieStyle.base, ...homeMovieStyle.laptop }
+        }
+      >
+        <h2 style={{ ...popularLabel.base, ...popularLabel.mobile }}>現正熱映中</h2>
+        <Popular positionV={1} />
+        <Popular positionV={2} />
+        <Popular positionV={3} />
+        <Popular positionV={4} />
+      </div>
     </div>
   );
 };
