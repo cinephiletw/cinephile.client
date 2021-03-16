@@ -14,7 +14,6 @@ const Button = (props) => {
       float: 'left',
       width: '25%',
       color: `${color}`,
-      fontSize: '12pt',
       fontFamily: 'Microsoft YaHei',
       fontWeight: 'bold',
       borderBottom: 'solid',
@@ -27,13 +26,20 @@ const Button = (props) => {
     mobile: {
       background: '#1e2126',
       boxShadow: '10px 10px 10px rgba(20, 20, 20, 0.8)',
+      fontSize: '12pt',
     },
     tablet: {
       background: 'rgb(15, 15, 15)',
       boxShadow: '10px 10px 10px rgba(20, 20, 20, 0.8)',
+      fontSize: '12pt',
     },
-    laptop: {
+    laptopM: {
       background: 'rgba(15, 15, 15, 0)',
+      fontSize: '12pt',
+    },
+    laptopL: {
+      background: 'rgba(15, 15, 15, 0)',
+      fontSize: '14pt',
     },
   };
 
@@ -43,8 +49,10 @@ const Button = (props) => {
       buttonMovie = { ..._buttonMovieStyle.base, ..._buttonMovieStyle.mobile };
     } else if (_width <= 800 && _width > 600) {
       buttonMovie = { ..._buttonMovieStyle.base, ..._buttonMovieStyle.tablet };
-    } else if (_width <= 1024 && _width > 800) {
-      buttonMovie = { ..._buttonMovieStyle.base, ..._buttonMovieStyle.laptop };
+    } else if (_width > 800 && _width <= 1200) {
+      buttonMovie = { ..._buttonMovieStyle.base, ..._buttonMovieStyle.laptopM };
+    } else if (_width > 1200) {
+      buttonMovie = { ..._buttonMovieStyle.base, ..._buttonMovieStyle.laptopL };
     }
     return buttonMovie;
   };

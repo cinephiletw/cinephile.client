@@ -61,11 +61,18 @@ const Movies = (props) => {
       right: '-17px',
       overflowY: 'scroll',
     },
-    laptop: {
+    laptopM: {
       height: `${533}px`,
       width: `${mediaWidth + 17}px`,
       right: '-17px',
       top: `${(mediaHeight - 533) / 2}px`,
+      overflowY: 'scroll',
+    },
+    laptopL: {
+      width: `${mediaWidth + 17}px`,
+      height: `${(533 / 1200) * mediaWidth}px`,
+      top: `${(mediaHeight - (533 / 1200) * mediaWidth) / 2}px`,
+      right: '-17px',
       overflowY: 'scroll',
     },
   };
@@ -88,10 +95,16 @@ const Movies = (props) => {
       height: `${(533 / 800) * 600}px`,
       width: `${600}px`,
     },
-    laptop: {
+    laptopM: {
       height: '533px',
       width: '800px',
       left: `${((mediaWidth - 800) / 2)}px`,
+    },
+    laptopL: {
+      top: '0',
+      height: `${(533 / 1200) * mediaWidth}px`,
+      width: `${(800 / 1200) * mediaWidth}px`,
+      left: `${(mediaWidth - (800 / 1200) * mediaWidth) / 2}px`,
     },
   };
 
@@ -114,10 +127,15 @@ const Movies = (props) => {
       height: `${(533 / 800) * 600}px`,
       width: `${600}px`,
     },
-    laptop: {
+    laptopM: {
       height: '533px',
       width: '800px',
       left: `${((mediaWidth - 800) / 2)}px`,
+    },
+    laptopL: {
+      height: `${(533 / 1200) * mediaWidth}px`,
+      width: `${(800 / 1200) * mediaWidth}px`,
+      left: `${(mediaWidth - (800 / 1200) * mediaWidth) / 2}px`,
     },
   };
 
@@ -142,12 +160,19 @@ const Movies = (props) => {
       width: `${(200 / 550) * 600}px`,
       height: `${(300 / 550) * 600}px`,
     },
-    laptop: {
+    laptopM: {
       boxShadow: '30px 30px 30px rgba(0, 0, 0, 0.9)',
       left: `${((mediaWidth - 800) / 2) + 70}px`,
       top: `${140}px`,
       height: '300px',
       width: '200px',
+    },
+    laptopL: {
+      boxShadow: '30px 30px 30px rgba(0, 0, 0, 0.9)',
+      left: `${(((1 - 800 / 1200) * mediaWidth) / 2) + (70 / 1200) * mediaWidth}px`,
+      top: `${(140 / 1200) * mediaWidth}px`,
+      height: `${(300 / 1200) * mediaWidth}px`,
+      width: `${(200 / 1200) * mediaWidth}px`,
     },
   };
 
@@ -173,11 +198,18 @@ const Movies = (props) => {
       left: `${600 * 0.05 + ((mediaWidth - 600) / 2)}px`,
       background: 'rgb(15, 15, 15)',
     },
-    laptop: {
+    laptopM: {
       width: `${700}px`,
       height: '450px',
       left: `${((mediaWidth - 800) / 2) + 50}px`,
       top: '80px',
+      background: 'rgba(0, 0, 0, 0.4)',
+    },
+    laptopL: {
+      width: `${(700 / 1200) * mediaWidth}px`,
+      height: `${(450 / 1200) * mediaWidth}px`,
+      left: `${(((1 - 800 / 1200) * mediaWidth) / 2) + (50 / 1200) * mediaWidth}px`,
+      top: `${(80 / 1200) * mediaWidth}px`,
       background: 'rgba(0, 0, 0, 0.4)',
     },
   };
@@ -202,15 +234,24 @@ const Movies = (props) => {
       left: '50%',
       fontSize: `${26}pt`,
     },
-    laptop: {
+    laptopM: {
       top: '20px',
       width: '70%',
       left: '250px',
       fontSize: `${26}pt`,
     },
+    laptopL: {
+      top: `${(20 / 1200) * mediaWidth}px`,
+      width: '70%',
+      left: `${(250 / 1200) * mediaWidth}px`,
+      fontSize: `${26 + ((30 - 26) / (1400 - 1200)) * (mediaWidth - 1200)}pt`,
+    },
   };
 
+  // 用來遮住卷軸
   const hideScrollStyle = {
+    // height 為資訊欄的0.4 倍
+    // width 為資訊欄的0.5 倍
     base: {
       overflowX: 'hidden',
       overflowY: 'hidden',
@@ -231,17 +272,26 @@ const Movies = (props) => {
       height: `${((450 * 600) / 500) * 0.4}px`,
       background: 'rgb(15, 15, 15)',
     },
-    laptop: {
+    laptopM: {
       top: '45%',
       left: '260px',
       width: `${800 * 0.5}px`,
       height: `${((450 * 600) / 500) * 0.4}px`,
       background: 'rgba(15, 15, 15, 0)',
     },
+    laptopL: {
+      top: '45%',
+      left: `${(260 / 1200) * mediaWidth}px`,
+      width: `${(800 / 1200) * mediaWidth * 0.5}px`,
+      height: `${(450 / 1200) * mediaWidth * 0.4}px`,
+      background: 'rgba(15, 15, 15, 0)',
+    },
   };
 
   // 點擊按鈕顯示的div
   const buttonShowStyle = {
+    // height 為資訊欄的0.4 倍
+    // width 為資訊欄的0.5 倍
     base: {
       overflowY: 'scroll',
       overflowX: 'hidden',
@@ -261,11 +311,18 @@ const Movies = (props) => {
       height: `${((450 * 600) / 500) * 0.4}px`,
       background: 'rgb(15, 15, 15)',
     },
-    laptop: {
+    laptopM: {
       top: '0',
       right: '-17px',
       width: `${800 * 0.5 + 17}px`,
       height: `${((450 * 600) / 500) * 0.4}px`,
+      background: 'rgba(15, 15, 15, 0)',
+    },
+    laptopL: {
+      top: '0',
+      right: '-17px',
+      width: `${(800 / 1200) * mediaWidth * 0.5 + 17}px`,
+      height: `${(450 / 1200) * mediaWidth * 0.4}px`,
       background: 'rgba(15, 15, 15, 0)',
     },
   };
@@ -307,15 +364,24 @@ const Movies = (props) => {
       title = { ..._titleStyle.base, ..._titleStyle.tablet };
       buttonShow = { ..._buttonShowStyle.base, ..._buttonShowStyle.tablet };
       hideScroll = { ..._hideScrollStyle.base, ..._hideScrollStyle.tablet };
-    } else if (_width <= 1024 && _width > 800) {
-      cover = { ..._coverStyle.base, ..._coverStyle.laptop };
-      backdrop = { ..._backDropStyle.base, ..._backDropStyle.laptop };
-      transpa = { ..._transpaStyle.base, ..._transpaStyle.laptop };
-      poster = { ..._posterStyle.base, ..._posterStyle.laptop };
-      info = { ..._infoStyle.base, ..._infoStyle.laptop };
-      title = { ..._titleStyle.base, ..._titleStyle.laptop };
-      buttonShow = { ..._buttonShowStyle.base, ..._buttonShowStyle.laptop };
-      hideScroll = { ..._hideScrollStyle.base, ..._hideScrollStyle.laptop };
+    } else if (_width <= 1200 && _width > 800) {
+      cover = { ..._coverStyle.base, ..._coverStyle.laptopM };
+      backdrop = { ..._backDropStyle.base, ..._backDropStyle.laptopM };
+      transpa = { ..._transpaStyle.base, ..._transpaStyle.laptopM };
+      poster = { ..._posterStyle.base, ..._posterStyle.laptopM };
+      info = { ..._infoStyle.base, ..._infoStyle.laptopM };
+      title = { ..._titleStyle.base, ..._titleStyle.laptopM };
+      buttonShow = { ..._buttonShowStyle.base, ..._buttonShowStyle.laptopM };
+      hideScroll = { ..._hideScrollStyle.base, ..._hideScrollStyle.laptopM };
+    } else if (_width > 1200) {
+      cover = { ..._coverStyle.base, ..._coverStyle.laptopL };
+      backdrop = { ..._backDropStyle.base, ..._backDropStyle.laptopL };
+      transpa = { ..._transpaStyle.base, ..._transpaStyle.laptopL };
+      poster = { ..._posterStyle.base, ..._posterStyle.laptopL };
+      info = { ..._infoStyle.base, ..._infoStyle.laptopL };
+      title = { ..._titleStyle.base, ..._titleStyle.laptopL };
+      buttonShow = { ..._buttonShowStyle.base, ..._buttonShowStyle.laptopL };
+      hideScroll = { ..._hideScrollStyle.base, ..._hideScrollStyle.laptopL };
     }
     return {
       cover, backdrop, transpa, poster, info, title, buttonShow, hideScroll,

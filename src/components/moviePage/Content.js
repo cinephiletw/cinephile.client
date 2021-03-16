@@ -25,10 +25,15 @@ const Content = (props) => {
       fontSize: '14pt',
       width: `${600 * 0.9 * 0.9}px`,
     },
-    laptop: {
+    laptopM: {
       color: 'rgb(220, 220, 220)',
       fontSize: '14pt',
       width: `${800 * 0.5}px`,
+    },
+    laptopL: {
+      color: 'rgb(220, 220, 220)',
+      fontSize: '14pt',
+      width: `${(800 / 1200) * mediaWidth * 0.5}px`,
     },
   };
 
@@ -38,8 +43,10 @@ const Content = (props) => {
       cont = { ..._contentStyle.base, ..._contentStyle.mobile };
     } else if (_width <= 800 && _width > 600) {
       cont = { ..._contentStyle.base, ..._contentStyle.tablet };
-    } else if (_width <= 1024 && _width > 800) {
-      cont = { ..._contentStyle.base, ..._contentStyle.laptop };
+    } else if (_width <= 1200 && _width > 800) {
+      cont = { ..._contentStyle.base, ..._contentStyle.laptopM };
+    } else if (_width > 1200) {
+      cont = { ..._contentStyle.base, ..._contentStyle.laptopL };
     }
     return cont;
   };

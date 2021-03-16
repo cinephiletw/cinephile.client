@@ -17,7 +17,12 @@ const ButtonGroup = (props) => {
       marginLeft: '5%',
       width: '90%',
     },
-    laptop: {
+    laptopM: {
+      marginTop: '25%',
+      marginLeft: '35%',
+      width: '60%',
+    },
+    laptopL: {
       marginTop: '25%',
       marginLeft: '35%',
       width: '60%',
@@ -28,8 +33,10 @@ const ButtonGroup = (props) => {
     let buttonGroup = {};
     if (_width <= 800) {
       buttonGroup = _buttonGroupStyle.mobile;
-    } else if (_width > 800) {
-      buttonGroup = _buttonGroupStyle.laptop;
+    } else if (_width > 800 && _width <= 1200) {
+      buttonGroup = _buttonGroupStyle.laptopM;
+    } else if (_width > 1200) {
+      buttonGroup = _buttonGroupStyle.laptopL;
     }
     return buttonGroup;
   };
