@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 
 // 中英文都有：中文名(英文名)
@@ -7,20 +7,26 @@ import axios from 'axios';
 // 只有中文：中文名
 const CheckNames = (props) => {
   const { names } = props;
-  const { height } = props;
+  const { mediaWidth } = props;
   const nameList = [];
 
   // 演員陣容
   const castStyle = {
-    position: 'absolute',
-    top: `${height}%`,
-    left: '42%',
-    width: '55%',
-    zIndex: '3',
-    fontSize: '12pt',
-    fontFamily: 'THeiti Light',
-    color: '#FFFFFF',
-    opacity: '1',
+    base: {
+      position: 'absolute',
+      top: '0',
+      left: '0',
+      width: '100%',
+      fontFamily: 'THeiti Light',
+    },
+    mobile: {
+      fontSize: '12pt',
+      color: 'rgb(240, 240, 240)',
+    },
+    tablet: {
+      fontSize: '14pt',
+      color: 'rgb(220, 220, 220)',
+    },
   };
 
   let i = 0;
@@ -38,15 +44,21 @@ const CheckNames = (props) => {
   }
 
   return (
-    <div>
-      <h3 style={castStyle}>{nameList.join('、')}</h3>
-    </div>
+    <h3
+      style={
+        mediaWidth < 600
+          ? { ...castStyle.base, ...castStyle.mobile }
+          : { ...castStyle.base, ...castStyle.tablet }
+      }
+    >
+      {nameList.join('、')}
+    </h3>
   );
 };
 
 CheckNames.propTypes = {
-  names: propTypes.arrayOf(propTypes.object).isRequired,
-  height: propTypes.string.isRequired,
+  names: PropTypes.arrayOf(PropTypes.object).isRequired,
+  mediaWidth: PropTypes.string.isRequired,
 };
 
 export default CheckNames;
