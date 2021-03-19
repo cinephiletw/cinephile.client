@@ -11,6 +11,13 @@ const Popular = (props) => {
   const { positionV } = props;
   const { mediaWidth } = useViewport();
 
+  // react 中props 所傳的參數是唯讀，要寫可變參數要使用 useState 用法為
+  // 宣告const [state, setState] = useState('state起始值')
+  // state 為參數useState 為設定起始值
+  // 要變更state 直接使用 setState()
+  const [popularData, setPopularData] = useState([0]);
+  const [clickCount, setClickCount] = useState(0);
+
   // 判斷分類電影匡在不同裝置的高度
   // width 是瀏覽器尺寸
   // maxPosterWidth 是海報最大寬度
@@ -39,6 +46,7 @@ const Popular = (props) => {
     }
     return { currentPosterWidth, movieCount };
   };
+
   const checkMedia = mediaCheck(mediaWidth, 180);
   const posterWidth = checkMedia.currentPosterWidth;
   const popularWidth = (posterWidth + 5) * checkMedia.movieCount - 5;
@@ -50,6 +58,7 @@ const Popular = (props) => {
     height: `${posterWidth * (3 / 2)}px`,
     width: `${mediaWidth}px`,
   };
+
   const popularStyle = {
     position: 'absolute',
     marginLeft: `${(mediaWidth - popularWidth) / 2}px`,
@@ -69,7 +78,6 @@ const Popular = (props) => {
     base: {
       background: 'linear-gradient(90deg, rgba(18, 18, 18, 0), rgba(18, 18, 18, 1))',
       position: 'absolute',
-      display: 'flex',
       zIndex: '3',
       top: '0px',
       height: `${posterWidth * (3 / 2)}px`,
@@ -80,9 +88,15 @@ const Popular = (props) => {
       justifyContent: 'center',
     },
     next: {
+      display: `${
+        checkMedia.movieCount * (clickCount + 1) >= popularData.length
+          ? 'none'
+          : 'flex'
+      }`,
       right: '0px',
     },
     pre: {
+      display: `${clickCount > 0 ? 'flex' : 'none'}`,
       left: '0px',
     },
   };
@@ -118,13 +132,6 @@ const Popular = (props) => {
       transform: 'rotate(180deg)',
     },
   };
-
-  // react 中props 所傳的參數是唯讀，要寫可變參數要使用 useState 用法為
-  // 宣告const [state, setState] = useState('state起始值')
-  // state 為參數useState 為設定起始值
-  // 要變更state 直接使用 setState()
-  const [popularData, setPopularData] = useState([0]);
-  const [clickCount, setClickCount] = useState(0);
 
   const posterSize = [
     posterWidth * (3 / 2),
