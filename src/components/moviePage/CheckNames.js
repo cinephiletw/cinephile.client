@@ -58,7 +58,7 @@ const CheckNames = (props) => {
 
 CheckNames.propTypes = {
   names: PropTypes.arrayOf(PropTypes.object).isRequired,
-  mediaWidth: PropTypes.string.isRequired,
+  mediaWidth: PropTypes.number.isRequired,
 };
 
 export default CheckNames;

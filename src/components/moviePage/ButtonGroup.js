@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, useRouteMatch } from 'react-router-dom';
 import propTypes from 'prop-types';
 import Button from './Button';
 
@@ -41,12 +42,58 @@ const ButtonGroup = (props) => {
     return buttonGroup;
   };
 
+  const [highlight, setHighlight] = useState([1, 0, 0, 0]);
+
+  const focusedButton = (type) => {
+    if (type === 'content') {
+      setHighlight([1, 0, 0, 0]);
+    } else if (type === 'cast') {
+      setHighlight([0, 1, 0, 0]);
+    } else if (type === 'publish') {
+      setHighlight([0, 0, 1, 0]);
+    } else if (type === 'theater') {
+      setHighlight([0, 0, 0, 1]);
+    }
+  };
+
   return (
     <div className="button-group" style={buttonStyleObject(mediaWidth, buttonGroupStyle)}>
-      <Button buttonName="簡介" mediaWidth={mediaWidth} movieId={movieId} buttonType="content" />
-      <Button buttonName="演員" mediaWidth={mediaWidth} movieId={movieId} buttonType="cast" />
-      <Button buttonName="出版" mediaWidth={mediaWidth} movieId={movieId} buttonType="publish" />
-      <Button buttonName="電影院" mediaWidth={mediaWidth} movieId={movieId} buttonType="theater" />
+      <Button
+        buttonName="簡介"
+        mediaWidth={mediaWidth}
+        movieId={movieId}
+        buttonType="content"
+        focusedButton={focusedButton}
+        highlight={highlight}
+        click={highlight[0] === 1}
+      />
+      <Button
+        buttonName="演員"
+        mediaWidth={mediaWidth}
+        movieId={movieId}
+        buttonType="cast"
+        focusedButton={focusedButton}
+        highlight={highlight}
+        click={highlight[1] === 1}
+      />
+      <Button
+        buttonName="出版"
+        mediaWidth={mediaWidth}
+        movieId={movieId}
+        buttonType="publish"
+        focusedButton={focusedButton}
+        highlight={highlight}
+        click={highlight[2] === 1}
+      />
+      <Button
+        buttonName="電影院"
+        mediaWidth={mediaWidth}
+        movieId={movieId}
+        buttonType="theater"
+        focusedButton={focusedButton}
+        highlight={highlight}
+        click={highlight[3] === 1}
+      />
     </div>
   );
 };
