@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
 import propTypes from 'prop-types';
 import Button from './Button';
@@ -42,8 +42,9 @@ const ButtonGroup = (props) => {
     return buttonGroup;
   };
 
-  const [highlight, setHighlight] = useState([1, 0, 0, 0]);
+  const [highlight, setHighlight] = useState([0, 0, 0, 0]);
 
+  // 當user用button進來時，會吃這邊的顏色
   const focusedButton = (type) => {
     if (type === 'content') {
       setHighlight([1, 0, 0, 0]);
@@ -55,6 +56,20 @@ const ButtonGroup = (props) => {
       setHighlight([0, 0, 0, 1]);
     }
   };
+
+  // 當user以router以連結進來時，會吃這邊的顏色
+  useEffect(() => {
+    const route = window.location.href.split('/')[5];
+    if (route === 'content') {
+      setHighlight([1, 0, 0, 0]);
+    } else if (route === 'cast') {
+      setHighlight([0, 1, 0, 0]);
+    } else if (route === 'publish') {
+      setHighlight([0, 0, 1, 0]);
+    } else if (route === 'theater') {
+      setHighlight([0, 0, 0, 1]);
+    }
+  }, []);
 
   return (
     <div className="button-group" style={buttonStyleObject(mediaWidth, buttonGroupStyle)}>
