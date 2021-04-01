@@ -26,7 +26,7 @@ const NameList = (props) => {
     },
   };
 
-  if (nameList[0] === null) {
+  if (nameList[0] == null) {
     return (
       <h3
         style={

@@ -39,6 +39,13 @@ const HomePage = (props) => {
     },
   };
 
+  const bottomStyle = {
+    marginBottom: '1150px',
+    height: '50px',
+    color: 'rgb(0, 0, 0)',
+    width: '100%',
+  };
+
   return (
     <div className="layout" style={homeStyle}>
       <NavBar />
@@ -53,6 +60,7 @@ const HomePage = (props) => {
         <MovieBar positionV={1} movieBarType="hot" />
         <MovieBar positionV={2} movieBarType="popular" />
         <MovieBar positionV={3} movieBarType="coming" />
+        <div style={bottomStyle} />
       </div>
     </div>
   );

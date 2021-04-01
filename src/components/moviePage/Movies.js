@@ -5,6 +5,7 @@ import axios from 'axios';
 import useViewport from '../../hooks/useViewport';
 import ButtonGroup from './ButtonGroup';
 import Content from './Content';
+import Theater from './Theater';
 import NameList from './NameList';
 
 // 這是個別電影頁設計
@@ -16,6 +17,7 @@ const Movies = (props) => {
   const [movieInfo, setMovieInfo] = useState([{ title: 'loading', content: 'loading' }]);
   const [castInfo, setCastInfo] = useState([null]);
   const [directorInfo, setDirectorInfo] = useState([null]);
+  const [theaterInfo, setTheaterInfo] = useState([null]);
   const backDropPath = `http://localhost:4000/images/backdrop/image_path_${match.params.movieId}/${match.params.movieId}_0.jpg`;
   const posterPath = `http://localhost:4000/images/poster/poster_path_${match.params.movieId}.jpg`;
 
@@ -182,6 +184,7 @@ const Movies = (props) => {
       position: 'absolute',
       borderRadius: '30px 30px 30px 30px',
       zIndex: '3',
+      overflowX: 'hidden',
     },
     mobile: {
       top: `${(533 / 800) * mediaWidth * 0.9}px`,
@@ -223,28 +226,28 @@ const Movies = (props) => {
       opacity: '1',
     },
     mobile: {
-      top: '20%',
+      top: '24%',
       width: `${mediaWidth * 0.9}px`,
       left: '5%',
-      fontSize: `${(24 * mediaWidth) / 425}pt`,
+      fontSize: `${(20 * mediaWidth) / 425}pt`,
     },
     tablet: {
       top: '15%',
       width: `${250}px`,
       left: '50%',
-      fontSize: `${26}pt`,
+      fontSize: `${24}pt`,
     },
     laptopM: {
-      top: '20px',
+      top: '35px',
       width: '70%',
       left: '250px',
-      fontSize: `${26}pt`,
+      fontSize: `${24}pt`,
     },
     laptopL: {
-      top: `${(20 / 1200) * mediaWidth}px`,
+      top: `${(35 / 1200) * mediaWidth}px`,
       width: '70%',
       left: `${(250 / 1200) * mediaWidth}px`,
-      fontSize: `${26 + ((30 - 26) / (1400 - 1200)) * (mediaWidth - 1200)}pt`,
+      fontSize: `${24 + ((28 - 24) / (1400 - 1200)) * (mediaWidth - 1200)}pt`,
     },
   };
 
@@ -262,28 +265,28 @@ const Movies = (props) => {
       top: '55%',
       left: `${mediaWidth * 0.05 * 0.9}px`,
       width: `${mediaWidth * 0.9 * 0.9}px`,
-      height: `${((450 * mediaWidth) / 500) * 0.4}px`,
+      height: `${((450 * mediaWidth) / 500) * 0.3}px`,
       background: '#1e2126',
     },
     tablet: {
       top: '55%',
       left: `${600 * 0.05 * 0.9}px`,
       width: `${600 * 0.9 * 0.9}px`,
-      height: `${((450 * 600) / 500) * 0.4}px`,
+      height: `${((450 * 600) / 500) * 0.3}px`,
       background: 'rgb(15, 15, 15)',
     },
     laptopM: {
       top: '45%',
       left: '260px',
       width: `${800 * 0.5}px`,
-      height: `${((450 * 600) / 500) * 0.4}px`,
+      height: `${((450 * 600) / 500) * 0.3}px`,
       background: 'rgba(15, 15, 15, 0)',
     },
     laptopL: {
       top: '45%',
       left: `${(260 / 1200) * mediaWidth}px`,
       width: `${(800 / 1200) * mediaWidth * 0.5}px`,
-      height: `${(450 / 1200) * mediaWidth * 0.4}px`,
+      height: `${(450 / 1200) * mediaWidth * 0.3}px`,
       background: 'rgba(15, 15, 15, 0)',
     },
   };
@@ -301,28 +304,28 @@ const Movies = (props) => {
       top: '0',
       right: '-17px',
       width: `${mediaWidth * 0.9 * 0.9 + 17}px`,
-      height: `${((450 * mediaWidth) / 500) * 0.4}px`,
+      height: `${((450 * mediaWidth) / 500) * 0.3}px`,
       background: '#1e2126',
     },
     tablet: {
       top: '0',
       right: '-17px',
       width: `${600 * 0.9 * 0.9 + 17}px`,
-      height: `${((450 * 600) / 500) * 0.4}px`,
+      height: `${((450 * 600) / 500) * 0.3}px`,
       background: 'rgb(15, 15, 15)',
     },
     laptopM: {
       top: '0',
       right: '-17px',
       width: `${800 * 0.5 + 17}px`,
-      height: `${((450 * 600) / 500) * 0.4}px`,
+      height: `${((450 * 600) / 500) * 0.3}px`,
       background: 'rgba(15, 15, 15, 0)',
     },
     laptopL: {
       top: '0',
       right: '-17px',
       width: `${(800 / 1200) * mediaWidth * 0.5 + 17}px`,
-      height: `${(450 / 1200) * mediaWidth * 0.4}px`,
+      height: `${(450 / 1200) * mediaWidth * 0.3}px`,
       background: 'rgba(15, 15, 15, 0)',
     },
   };
@@ -415,6 +418,7 @@ const Movies = (props) => {
       setMovieInfo(movieData.data[0]);
       setCastInfo(movieData.data[0].cast);
       setDirectorInfo(movieData.data[0].director);
+      setTheaterInfo(movieData.data[0].source);
     };
     fetchData();
   }, []);
@@ -442,6 +446,10 @@ const Movies = (props) => {
                 <Route
                   path="/movies/:movieId/publish/"
                   component={() => <NameList nameList={directorInfo} mediaWidth={mediaWidth} />}
+                />
+                <Route
+                  path="/movies/:movieId/theater/"
+                  component={() => <Theater theaterInfo={theaterInfo} mediaWidth={mediaWidth} />}
                 />
               </Switch>
             </div>
