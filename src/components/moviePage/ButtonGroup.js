@@ -14,9 +14,16 @@ const ButtonGroup = (props) => {
   const { movieId } = props;
   const buttonGroupStyle = {
     mobile: {
+      marginTop: '50%',
+      marginLeft: '5%',
+      width: '90%',
+      height: '20px',
+    },
+    tablet: {
       marginTop: '45%',
       marginLeft: '5%',
       width: '90%',
+      height: '20px',
     },
     laptopM: {
       marginTop: '25%',
@@ -32,8 +39,10 @@ const ButtonGroup = (props) => {
 
   const buttonStyleObject = (_width, _buttonGroupStyle) => {
     let buttonGroup = {};
-    if (_width <= 800) {
+    if (_width <= 600) {
       buttonGroup = _buttonGroupStyle.mobile;
+    } else if (_width > 600 && _width <= 800) {
+      buttonGroup = _buttonGroupStyle.tablet;
     } else if (_width > 800 && _width <= 1200) {
       buttonGroup = _buttonGroupStyle.laptopM;
     } else if (_width > 1200) {
