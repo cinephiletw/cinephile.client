@@ -5,6 +5,11 @@ import TheaterIcons from './TheaterIcons';
 const Theater = (props) => {
   const { theaterInfo } = props;
   const { mediaWidth } = props;
+  const theaterStyle = {
+    display: 'flex',
+    alignItems: 'left',
+    justifyContent: 'left',
+  };
 
   if (theaterInfo[0] === null) {
     return (
@@ -13,7 +18,7 @@ const Theater = (props) => {
   }
 
   return (
-    <div>
+    <div style={theaterStyle}>
       {
         theaterInfo.map(
           (x) => <TheaterIcons key={x.web_name} webName={x.web_name} webURL={x.web_url} />,
