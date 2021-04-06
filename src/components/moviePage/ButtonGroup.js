@@ -92,7 +92,7 @@ const ButtonGroup = (props) => {
         click={highlight[1] === 1}
       />
       <Button
-        buttonName="出版"
+        buttonName="導演"
         mediaWidth={mediaWidth}
         movieId={movieId}
         buttonType="publish"
