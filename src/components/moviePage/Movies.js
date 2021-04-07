@@ -10,6 +10,7 @@ import NameList from './NameList';
 import ReleaseDate from './ReleaseDate';
 import Runtime from './Runtime';
 import Exist from './Exist';
+import Genre from './Genre';
 
 // 這是個別電影頁設計
 
@@ -24,6 +25,7 @@ const Movies = (props) => {
   const [theaterInfo, setTheaterInfo] = useState([null]);
   const [releaseDate, setReleaseDate] = useState(0);
   const [runtime, setRuntime] = useState(0);
+  const [genre, setGenre] = useState('');
   const backDropPath = `http://localhost:4000/images/backdrop/image_path_${match.params.movieId}/${match.params.movieId}_0.jpg`;
   const posterPath = `http://localhost:4000/images/poster/poster_path_${match.params.movieId}.jpg`;
 
@@ -469,6 +471,7 @@ const Movies = (props) => {
       setTheaterInfo(movieData.data[0].source);
       setReleaseDate(movieData.data[0].release_date);
       setRuntime(movieData.data[0].runtime);
+      setGenre(movieData.data[0].genre.join(' / '));
     };
     fetchData();
   }, []);
@@ -483,6 +486,7 @@ const Movies = (props) => {
         <div style={moviePageStyle.info}>
           <ReleaseDate releaseDate={releaseDate} mediaWidth={mediaWidth} />
           <Runtime runtime={runtime} mediaWidth={mediaWidth} />
+          <Genre genre={genre} mediaWidth={mediaWidth} />
           <h3 style={moviePageStyle.title}>{movieInfo.title}</h3>
           <h3 style={moviePageStyle.originTitle}>{movieInfo.origin_title}</h3>
           <ButtonGroup mediaWidth={mediaWidth} movieId={match.params.movieId} />
