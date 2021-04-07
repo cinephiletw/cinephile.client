@@ -17,26 +17,26 @@ const Runtime = (props) => {
     mobile: {
       top: '12%',
       left: '54%',
-      height: `${(30 * mediaWidth) / 600}px`,
-      width: `${(60 * mediaWidth) / 600}px`,
+      height: `${(25 * mediaWidth) / 600}px`,
+      width: `${(50 * mediaWidth) / 600}px`,
     },
     tablet: {
       top: '12%',
       left: '51%',
-      height: `${25}px`,
-      width: `${50}px`,
+      height: `${20}px`,
+      width: `${40}px`,
     },
     laptopM: {
       top: '138px',
       left: '255px',
-      height: `${30}px`,
-      width: `${55}px`,
+      height: `${20}px`,
+      width: `${40}px`,
     },
     laptopL: {
       top: `${(138 / 1200) * mediaWidth}px`,
       left: `${(255 / 1200) * mediaWidth}px`,
-      height: `${(30 / 1200) * mediaWidth}px`,
-      width: `${(55 / 1200) * mediaWidth}px`,
+      height: `${(20 / 1200) * mediaWidth}px`,
+      width: `${(40 / 1200) * mediaWidth}px`,
     },
   };
 
@@ -48,19 +48,19 @@ const Runtime = (props) => {
     },
     mobile: {
       top: '0',
-      fontSize: `${(14 * mediaWidth) / 600}pt`,
+      fontSize: `${(12 * mediaWidth) / 600}pt`,
     },
     tablet: {
       top: '0',
-      fontSize: `${12}pt`,
+      fontSize: `${10}pt`,
     },
     laptopM: {
       top: '0',
-      fontSize: `${14}pt`,
+      fontSize: `${10}pt`,
     },
     laptopL: {
       top: '0',
-      fontSize: `${14 + ((16 - 14) / (1400 - 1200)) * (mediaWidth - 1200)}pt`,
+      fontSize: `${10 + ((12 - 10) / (1400 - 1200)) * (mediaWidth - 1200)}pt`,
     },
   };
 
@@ -72,19 +72,19 @@ const Runtime = (props) => {
     },
     mobile: {
       top: '0',
-      fontSize: `${(14 * mediaWidth) / 600}pt`,
+      fontSize: `${(12 * mediaWidth) / 600}pt`,
     },
     tablet: {
       top: '0',
-      fontSize: `${12}pt`,
+      fontSize: `${10}pt`,
     },
     laptopM: {
       top: '0',
-      fontSize: `${12}pt`,
+      fontSize: `${10}pt`,
     },
     laptopL: {
       top: '0',
-      fontSize: `${14 + ((16 - 14) / (1400 - 1200)) * (mediaWidth - 1200)}pt`,
+      fontSize: `${10 + ((12 - 10) / (1400 - 1200)) * (mediaWidth - 1200)}pt`,
     },
   };
 
