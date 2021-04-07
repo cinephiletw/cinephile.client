@@ -22,14 +22,14 @@ const ReleaseDate = (props) => {
       fontSize: `${20}pt`,
     },
     laptopM: {
-      top: '120px',
-      left: '330px',
-      fontSize: `${16}pt`,
+      top: '119px',
+      left: '310px',
+      fontSize: `${14}pt`,
     },
     laptopL: {
-      top: `${(120 / 1200) * mediaWidth}px`,
-      left: `${(330 / 1200) * mediaWidth}px`,
-      fontSize: `${16 + ((18 - 16) / (1400 - 1200)) * (mediaWidth - 1200)}pt`,
+      top: `${(119 / 1200) * mediaWidth}px`,
+      left: `${(310 / 1200) * mediaWidth}px`,
+      fontSize: `${14 + ((16 - 14) / (1400 - 1200)) * (mediaWidth - 1200)}pt`,
     },
   };
   const date = new Date(releaseDate * 1000);

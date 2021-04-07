@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import propTypes from 'prop-types';
 import axios from 'axios';
 import useViewport from '../../hooks/useViewport';
@@ -9,12 +9,14 @@ import Theater from './Theater';
 import NameList from './NameList';
 import ReleaseDate from './ReleaseDate';
 import Runtime from './Runtime';
+import Exist from './Exist';
 
 // 這是個別電影頁設計
 
 const Movies = (props) => {
   // 參數網址
   const { match } = props;
+  const history = useHistory();
   const { mediaWidth, mediaHeight } = useViewport();
   const [movieInfo, setMovieInfo] = useState([{ title: 'loading', content: 'loading' }]);
   const [castInfo, setCastInfo] = useState([null]);
@@ -476,6 +478,7 @@ const Movies = (props) => {
       <div className="movie-page-cover" style={moviePageStyle.cover}>
         <img className="backdrop-img" src={backDropPath} alt="backdrop" style={moviePageStyle.backdrop} />
         <div className="movie-page-cover" style={moviePageStyle.transpa} />
+        <Exist mediaWidth={mediaWidth} />
         <img src={posterPath} alt="poster" style={moviePageStyle.poster} />
         <div style={moviePageStyle.info}>
           <ReleaseDate releaseDate={releaseDate} mediaWidth={mediaWidth} />
