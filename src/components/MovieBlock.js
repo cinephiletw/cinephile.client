@@ -66,7 +66,7 @@ const MovieBlock = (props) => {
     size: 'xs',
   };
 
-  const route = `/movies/${id}`;
+  const route = `/movies/${id}/content`;
   // 因上層使用useEffect 前會先render 一次，此時海報資料還沒進來，先給個loading icon 等待useEffect 執行
   // not loaded yet
   if (id === 0) {
