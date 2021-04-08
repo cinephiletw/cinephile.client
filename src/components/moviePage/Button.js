@@ -3,17 +3,20 @@ import propTypes from 'prop-types';
 import { Link, useRouteMatch } from 'react-router-dom';
 
 const Button = (props) => {
-  const [color, setColor] = useState('rgb(80, 80, 80)');
+  const [color, setColor] = useState('rgb(120, 120, 120)');
   const { buttonName } = props;
   const { mediaWidth } = props;
   const { movieId } = props;
   const { buttonType } = props;
+  const { focusedButton } = props;
+  const { highlight } = props;
+  const { click } = props;
 
   const buttonMovieStyle = {
     base: {
       float: 'left',
       width: '25%',
-      color: `${color}`,
+      color: `${click ? 'rgb(255, 204, 0)' : 'rgb(120, 120, 120)'}`,
       fontFamily: 'Microsoft YaHei',
       fontWeight: 'bold',
       borderBottom: 'solid',
@@ -22,6 +25,7 @@ const Button = (props) => {
       borderLeft: 'none',
       paddingBottom: '3px',
       outline: 'none',
+      cursor: 'pointer',
     },
     mobile: {
       background: '#1e2126',
@@ -64,8 +68,7 @@ const Button = (props) => {
         className="button-overview"
         type="button"
         style={buttonMovieObject(mediaWidth, buttonMovieStyle)}
-        onFocus={() => { setColor('rgb(255, 204, 0)'); }}
-        onBlur={() => { setColor('rgb(80, 80, 80)'); }}
+        onClick={() => focusedButton(buttonType)}
       >
         {buttonName}
       </button>
@@ -78,6 +81,9 @@ Button.propTypes = {
   buttonName: propTypes.string.isRequired,
   buttonType: propTypes.string.isRequired,
   movieId: propTypes.string.isRequired,
+  focusedButton: propTypes.func.isRequired,
+  highlight: propTypes.arrayOf(propTypes.number).isRequired,
+  click: propTypes.bool.isRequired,
 };
 
 export default Button;

@@ -1,6 +1,7 @@
 import React from 'react';
 import NavBar from './NavBar';
-import Popular from './Popular';
+import MovieBar from './MovieBar';
+import HomePageLabel from './HomePageLabel';
 import useViewport from '../hooks/useViewport';
 
 // 首頁，react 以component 為單位往下拆分，將元件寫在/component 資料夾內再export 出來使用
@@ -38,19 +39,11 @@ const HomePage = (props) => {
     },
   };
 
-  const popularLabel = {
-    base: {
-      fontFamily: 'sans-serif',
-      fontSize: '1.5em',
-      fontWeight: '700',
-      color: 'rgb(200, 200, 200)',
-      marginLeft: '5%',
-      height: '5px',
-      width: `${mediaWidth}`,
-    },
-    mobile: {
-      marginTop: '18px',
-    },
+  const bottomStyle = {
+    marginBottom: '1150px',
+    height: '50px',
+    color: 'rgb(0, 0, 0)',
+    width: '100%',
   };
 
   return (
@@ -64,11 +57,10 @@ const HomePage = (props) => {
             : { ...homeMovieStyle.base, ...homeMovieStyle.laptop }
         }
       >
-        <h2 style={{ ...popularLabel.base, ...popularLabel.mobile }}>現正熱映中</h2>
-        <Popular positionV={1} />
-        <Popular positionV={2} />
-        <Popular positionV={3} />
-        <Popular positionV={4} />
+        <MovieBar positionV={1} movieBarType="hot" />
+        <MovieBar positionV={2} movieBarType="popular" />
+        <MovieBar positionV={3} movieBarType="coming" />
+        <div style={bottomStyle} />
       </div>
     </div>
   );

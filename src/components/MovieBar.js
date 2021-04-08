@@ -4,18 +4,20 @@ import propTypes from 'prop-types';
 import { faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import MovieBlock from './MovieBlock';
+import HomePageLabel from './HomePageLabel';
 import useViewport from '../hooks/useViewport';
 
-const Popular = (props) => {
+const MovieBar = (props) => {
   // 使用props 傳入值，要先宣告
   const { positionV } = props;
+  const { movieBarType } = props;
   const { mediaWidth } = useViewport();
 
   // react 中props 所傳的參數是唯讀，要寫可變參數要使用 useState 用法為
   // 宣告const [state, setState] = useState('state起始值')
   // state 為參數useState 為設定起始值
   // 要變更state 直接使用 setState()
-  const [popularData, setPopularData] = useState([0]);
+  const [movieBarData, setMovieBarData] = useState([0]);
   const [clickCount, setClickCount] = useState(0);
 
   // 判斷分類電影匡在不同裝置的高度
@@ -24,46 +26,55 @@ const Popular = (props) => {
   const mediaCheck = (width, maxPosterWidth) => {
     let currentPosterWidth;
     let movieCount;
+    let labelHeight;
     if (width <= 425) {
       currentPosterWidth = width * ((maxPosterWidth) / 425);
       movieCount = 2;
+      labelHeight = 60;
     } else if (width <= 650 && width > 425) {
       currentPosterWidth = maxPosterWidth * 0.7 + ((maxPosterWidth * 0.3) / 225) * (width - 425);
       movieCount = 3;
+      labelHeight = 60;
     } else if (width <= 850 && width > 650) {
       currentPosterWidth = maxPosterWidth * 0.8 + ((maxPosterWidth * 0.2) / 200) * (width - 650);
       movieCount = 4;
+      labelHeight = 60;
     } else if (width <= 1050 && width > 850) {
       currentPosterWidth = maxPosterWidth * 0.8 + ((maxPosterWidth * 0.2) / 200) * (width - 850);
       movieCount = 5;
+      labelHeight = 60;
     } else if (width <= 1300 && width > 1050) {
       currentPosterWidth = maxPosterWidth * 0.9 + ((maxPosterWidth * 0.1) / 250) * (width - 1050);
       movieCount = 6;
+      labelHeight = 100;
     } else {
       currentPosterWidth = (maxPosterWidth + 20) * 0.85;
       currentPosterWidth += ((maxPosterWidth * 0.15) / 200) * (width - 1300);
       movieCount = 7;
+      labelHeight = 100;
     }
-    return { currentPosterWidth, movieCount };
+    return { currentPosterWidth, movieCount, labelHeight };
   };
 
   const checkMedia = mediaCheck(mediaWidth, 180);
   const posterWidth = checkMedia.currentPosterWidth;
-  const popularWidth = (posterWidth + 5) * checkMedia.movieCount - 5;
+  const labelH = checkMedia.labelHeight;
+  const movieBarWidth = (posterWidth + 5) * checkMedia.movieCount - 5;
 
   const homePageMovieStyle = {
     position: 'absolute',
     left: '0',
-    marginTop: `${(positionV - 1) * posterWidth * (3 / 2) + positionV * 60}px`,
-    height: `${posterWidth * (3 / 2)}px`,
+    marginTop: `${(positionV - 1) * posterWidth * (3 / 2) + (positionV - 1) * labelH}px`,
+    height: `${posterWidth * (3 / 2) + labelH}px`,
     width: `${mediaWidth}px`,
   };
 
-  const popularStyle = {
+  const movieBarStyle = {
     position: 'absolute',
-    marginLeft: `${(mediaWidth - popularWidth) / 2}px`,
-    marginRight: `${((mediaWidth - popularWidth) / 2) + 17}px`,
-    width: `${popularWidth}px`,
+    marginLeft: `${(mediaWidth - movieBarWidth) / 2}px`,
+    marginRight: `${((mediaWidth - movieBarWidth) / 2) + 17}px`,
+    top: `${labelH}px`,
+    width: `${movieBarWidth}px`,
     height: `${posterWidth * (3 / 2)}px`,
     backgroundColor: 'rgb(20, 20, 20)',
     borderRadius: '10px 10px 10px 10px',
@@ -79,9 +90,9 @@ const Popular = (props) => {
       background: 'linear-gradient(90deg, rgba(18, 18, 18, 0), rgba(18, 18, 18, 1))',
       position: 'absolute',
       zIndex: '3',
-      top: '0px',
+      top: `${labelH}px`,
       height: `${posterWidth * (3 / 2)}px`,
-      width: `${(mediaWidth - popularWidth) / 2}px`,
+      width: `${(mediaWidth - movieBarWidth) / 2}px`,
       overflow: 'hidden',
       borderRadius: '10px 0px 0px 10px',
       alignItems: 'center',
@@ -89,7 +100,7 @@ const Popular = (props) => {
     },
     next: {
       display: `${
-        checkMedia.movieCount * (clickCount + 1) >= popularData.length
+        checkMedia.movieCount * (clickCount + 1) >= movieBarData.length
           ? 'none'
           : 'flex'
       }`,
@@ -123,7 +134,7 @@ const Popular = (props) => {
     base: {
       color: 'rgb(220, 220, 220)',
       height: '40px',
-      width: `${(mediaWidth - popularWidth) / 4}px`,
+      width: `${(mediaWidth - movieBarWidth) / 4}px`,
     },
     next: {
       transform: 'rotate(0deg)',
@@ -147,8 +158,8 @@ const Popular = (props) => {
   };
 
   // axios 是RESTful API 的使用方法用法如 fetchPopularMovies()
-  const fetchPopularMovies = () => (
-    axios.get('http://localhost:4000/popularMovies')
+  const fetchMovieBarMovies = () => (
+    axios.get(`http://localhost:4000/${movieBarType}Movies`)
       .then((res) => (res.data))
       .catch((error) => { console.log(error); })
   );
@@ -156,17 +167,25 @@ const Popular = (props) => {
   // useEffect 為設定頁面起始，在render 執行
   useEffect(() => {
     const fetchData = async () => {
-      const [popularMovies] = await Promise.all([
-        fetchPopularMovies(),
+      const [movieBarMovies] = await Promise.all([
+        fetchMovieBarMovies(),
       ]);
-      const idList = Object.values(popularMovies.popularData).map((item) => (item.movie_id));
-      setPopularData(idList);
+      let idList;
+      if (movieBarType === 'popular') {
+        idList = Object.values(movieBarMovies.popularData).map((item) => (item.movie_id));
+      } else if (movieBarType === 'hot') {
+        idList = Object.values(movieBarMovies.hotData).map((item) => (item.movie_id));
+      } else if (movieBarType === 'coming') {
+        idList = Object.values(movieBarMovies.comingData).map((item) => (item.movie_id));
+      }
+      setMovieBarData(idList);
     };
     fetchData();
   }, []);
 
   return (
     <div className="home-page-movies" style={homePageMovieStyle}>
+      <HomePageLabel labelType={movieBarType} mediaWidth={mediaWidth} />
       <div
         className="next-transparent"
         style={{ ...transpaStyle.base, ...transpaStyle.next }}
@@ -185,8 +204,8 @@ const Popular = (props) => {
           </div>
         </button>
       </div>
-      <div className="popular-movies" style={popularStyle}>
-        { popularData.map((item) => (
+      <div className="movie-bar-movies" style={movieBarStyle}>
+        { movieBarData.map((item) => (
           <MovieBlock
             img_type="poster"
             key={item}
@@ -220,7 +239,8 @@ const Popular = (props) => {
 };
 // Eslint 建議使用props 時要用propTypes 限制傳入資料型態
 
-Popular.propTypes = {
+MovieBar.propTypes = {
   positionV: propTypes.number.isRequired,
+  movieBarType: propTypes.string.isRequired,
 };
-export default Popular;
+export default MovieBar;
