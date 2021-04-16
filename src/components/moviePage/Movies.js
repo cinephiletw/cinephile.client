@@ -460,7 +460,6 @@ const Movies = (props) => {
       const [movieData] = await Promise.all([
         apiMoviePageMovies(match.params.movieId),
       ]);
-      console.log(movieData);
       setMovieInfo(movieData.data[0]);
       setCastInfo(movieData.data[0].cast);
       setDirectorInfo(movieData.data[0].director);
