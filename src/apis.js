@@ -10,7 +10,7 @@ const homePageRequest = axios.create({
 // 分頁電影資料
 const moviePageRequest = axios.create({
   baseURL: process.env.NODE_ENV === 'production'
-    ? 'api/v1/moviePages/movie'
+    ? '/api/v1/moviePages/movie'
     : 'http://localhost:4000/api/v1/moviePages/movie',
 });
 
