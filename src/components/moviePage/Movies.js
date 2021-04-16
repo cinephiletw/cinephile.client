@@ -11,6 +11,7 @@ import ReleaseDate from './ReleaseDate';
 import Runtime from './Runtime';
 import Exist from './Exist';
 import Genre from './Genre';
+import { apiMoviePageMovies } from '../../apis';
 
 // 這是個別電影頁設計
 
@@ -453,18 +454,12 @@ const Movies = (props) => {
     hideScrollStyle,
   );
 
-  // 接API 取得電影資訊
-  const fetchMoviesData = () => (
-    axios.get(`http://localhost:4000/moviePages/movies/${match.params.movieId}`)
-      .then((res) => (res.data))
-      .catch((error) => { console.log(error); })
-  );
-
   useEffect(() => {
     const fetchData = async () => {
       const [movieData] = await Promise.all([
-        fetchMoviesData(),
+        apiMoviePageMovies(match.params.movieId),
       ]);
+      console.log(movieData);
       setMovieInfo(movieData.data[0]);
       setCastInfo(movieData.data[0].cast);
       setDirectorInfo(movieData.data[0].director);
