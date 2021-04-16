@@ -59,8 +59,12 @@ const Content = (props) => {
 };
 
 Content.propTypes = {
-  content: PropTypes.string.isRequired,
-  mediaWidth: PropTypes.string.isRequired,
+  content: PropTypes.string,
+  mediaWidth: PropTypes.number.isRequired,
+};
+
+Content.defaultProps = {
+  content: 'N/A',
 };
 
 export default Content;

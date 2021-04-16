@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link, useRouteMatch } from 'react-router-dom';
 import propTypes from 'prop-types';
 import Button from './Button';
 
@@ -13,9 +14,16 @@ const ButtonGroup = (props) => {
   const { movieId } = props;
   const buttonGroupStyle = {
     mobile: {
+      marginTop: '50%',
+      marginLeft: '5%',
+      width: '90%',
+      height: '20px',
+    },
+    tablet: {
       marginTop: '45%',
       marginLeft: '5%',
       width: '90%',
+      height: '20px',
     },
     laptopM: {
       marginTop: '25%',
@@ -31,8 +39,10 @@ const ButtonGroup = (props) => {
 
   const buttonStyleObject = (_width, _buttonGroupStyle) => {
     let buttonGroup = {};
-    if (_width <= 800) {
+    if (_width <= 600) {
       buttonGroup = _buttonGroupStyle.mobile;
+    } else if (_width > 600 && _width <= 800) {
+      buttonGroup = _buttonGroupStyle.tablet;
     } else if (_width > 800 && _width <= 1200) {
       buttonGroup = _buttonGroupStyle.laptopM;
     } else if (_width > 1200) {
@@ -41,12 +51,73 @@ const ButtonGroup = (props) => {
     return buttonGroup;
   };
 
+  const [highlight, setHighlight] = useState([0, 0, 0, 0]);
+
+  // 當user用button進來時，會吃這邊的顏色
+  const focusedButton = (type) => {
+    if (type === 'content') {
+      setHighlight([1, 0, 0, 0]);
+    } else if (type === 'cast') {
+      setHighlight([0, 1, 0, 0]);
+    } else if (type === 'publish') {
+      setHighlight([0, 0, 1, 0]);
+    } else if (type === 'theater') {
+      setHighlight([0, 0, 0, 1]);
+    }
+  };
+
+  // 當user以router以連結進來時，會吃這邊的顏色
+  useEffect(() => {
+    const route = window.location.href.split('/')[5];
+    if (route === 'content') {
+      setHighlight([1, 0, 0, 0]);
+    } else if (route === 'cast') {
+      setHighlight([0, 1, 0, 0]);
+    } else if (route === 'publish') {
+      setHighlight([0, 0, 1, 0]);
+    } else if (route === 'theater') {
+      setHighlight([0, 0, 0, 1]);
+    }
+  }, []);
+
   return (
     <div className="button-group" style={buttonStyleObject(mediaWidth, buttonGroupStyle)}>
-      <Button buttonName="簡介" mediaWidth={mediaWidth} movieId={movieId} buttonType="content" />
-      <Button buttonName="演員" mediaWidth={mediaWidth} movieId={movieId} buttonType="cast" />
-      <Button buttonName="出版" mediaWidth={mediaWidth} movieId={movieId} buttonType="publish" />
-      <Button buttonName="電影院" mediaWidth={mediaWidth} movieId={movieId} buttonType="theater" />
+      <Button
+        buttonName="簡介"
+        mediaWidth={mediaWidth}
+        movieId={movieId}
+        buttonType="content"
+        focusedButton={focusedButton}
+        highlight={highlight}
+        click={highlight[0] === 1}
+      />
+      <Button
+        buttonName="演員"
+        mediaWidth={mediaWidth}
+        movieId={movieId}
+        buttonType="cast"
+        focusedButton={focusedButton}
+        highlight={highlight}
+        click={highlight[1] === 1}
+      />
+      <Button
+        buttonName="導演"
+        mediaWidth={mediaWidth}
+        movieId={movieId}
+        buttonType="publish"
+        focusedButton={focusedButton}
+        highlight={highlight}
+        click={highlight[2] === 1}
+      />
+      <Button
+        buttonName="電影院"
+        mediaWidth={mediaWidth}
+        movieId={movieId}
+        buttonType="theater"
+        focusedButton={focusedButton}
+        highlight={highlight}
+        click={highlight[3] === 1}
+      />
     </div>
   );
 };
