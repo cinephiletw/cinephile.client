@@ -11,7 +11,7 @@ import ReleaseDate from './ReleaseDate';
 import Runtime from './Runtime';
 import Exist from './Exist';
 import Genre from './Genre';
-import { apiMoviePageMovies } from '../../apis';
+import { apiMoviePageMovies, posterRequest, backdropRequest } from '../../apis';
 
 // 這是個別電影頁設計
 
@@ -27,8 +27,9 @@ const Movies = (props) => {
   const [releaseDate, setReleaseDate] = useState(0);
   const [runtime, setRuntime] = useState(0);
   const [genre, setGenre] = useState('');
-  const backDropPath = `http://localhost:4000/images/backdrop/image_path_${match.params.movieId}/${match.params.movieId}_0.jpg`;
-  const posterPath = `http://localhost:4000/images/poster/poster_path_${match.params.movieId}.jpg`;
+  const backDropPath = `${backdropRequest.baseURL}/image_path_${match.params.movieId}/${match.params.movieId}_0.jpg`;
+  console.log(backDropPath);
+  const posterPath = `${posterRequest.baseURL}/poster_path_${match.params.movieId}.jpg`;
 
   const posterSize = () => {
     const posterWidth = (200 / 550) * mediaWidth;

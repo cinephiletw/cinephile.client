@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import propTypes from 'prop-types';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { posterRequest } from '../apis';
 
 const MovieBlock = (props) => {
   const { img_type } = props;
@@ -10,7 +11,7 @@ const MovieBlock = (props) => {
   const { movieCount } = props;
   const { posterSize } = props;
   const { clickCount } = props;
-  const imagePath = `http://localhost:4000/images/poster/${img_type}_path_${String(id)}.jpg`;
+  const imagePath = `${posterRequest.baseURL}/${img_type}_path_${String(id)}.jpg`;
   const history = useHistory();
   const [touch, setTouch] = useState(false);
 
