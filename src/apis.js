@@ -28,4 +28,23 @@ export const apiMoviePageMovies = (id) => (
     .catch((error) => { console.log(error); })
 );
 
-// export default apiHomePageMovies;
+// 以下為圖像path
+// 海報
+export const posterRequest = {
+  baseURL: process.env.NODE_ENV === 'production'
+    ? 'api/v1/images/poster'
+    : 'http://localhost:4000/images/poster',
+};
+
+// 劇照
+export const backdropRequest = {
+  baseURL: process.env.NODE_ENV === 'production'
+    ? 'api/v1/images/backdrop'
+    : 'http://localhost:4000/images/backdrop',
+};
+// 影城
+export const theaterIconRequest = {
+  baseURL: process.env.NODE_ENV === 'production'
+    ? 'api/v1/icons'
+    : 'http://localhost:4000/icons',
+};
