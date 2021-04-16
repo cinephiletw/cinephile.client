@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import useViewport from '../../hooks/useViewport';
+import { theaterIconRequest } from '../../apis';
 
 const TheaterIcons = (props) => {
   const { webName } = props;
@@ -59,7 +60,7 @@ const TheaterIcons = (props) => {
     window.open(webURL);
   };
 
-  const path = `http://localhost:4000/icons/${webName}.png`;
+  const path = `${theaterIconRequest.baseURL}/${webName}.png`;
 
   const theaterStyle = styleObjects(theaterButtonStyle, imgStyle, mediaWidth);
 
