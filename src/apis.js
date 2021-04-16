@@ -32,19 +32,19 @@ export const apiMoviePageMovies = (id) => (
 // 海報
 export const posterRequest = {
   baseURL: process.env.NODE_ENV === 'production'
-    ? 'api/v1/images/poster'
+    ? 'api/v1/static/images/poster'
     : 'http://localhost:4000/images/poster',
 };
 
 // 劇照
 export const backdropRequest = {
   baseURL: process.env.NODE_ENV === 'production'
-    ? 'api/v1/images/backdrop'
+    ? 'api/v1/static/images/backdrop'
     : 'http://localhost:4000/images/backdrop',
 };
 // 影城
 export const theaterIconRequest = {
   baseURL: process.env.NODE_ENV === 'production'
-    ? 'api/v1/icons'
+    ? 'api/v1/static/icons'
     : 'http://localhost:4000/icons',
 };
