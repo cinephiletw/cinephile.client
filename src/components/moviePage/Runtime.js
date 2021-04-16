@@ -116,7 +116,7 @@ const Runtime = (props) => {
   const runtimeStyle = handleStyle(mediaWidth, textStyle, blockStyle, minStyle);
   return (
     <div style={runtimeStyle.block}>
-      <h3 style={runtimeStyle.runtimeText}>120</h3>
+      <h3 style={runtimeStyle.runtimeText}>{runtime}</h3>
       <h3 style={runtimeStyle.min}>m</h3>
     </div>
   );

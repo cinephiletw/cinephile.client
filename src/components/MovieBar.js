@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import MovieBlock from './MovieBlock';
 import HomePageLabel from './HomePageLabel';
 import useViewport from '../hooks/useViewport';
+import { apiHomePageMovies } from '../apis';
 
 const MovieBar = (props) => {
   // 使用props 傳入值，要先宣告
@@ -168,8 +169,10 @@ const MovieBar = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       const [movieBarMovies] = await Promise.all([
-        fetchMovieBarMovies(),
+        // fetchMovieBarMovies(),
+        apiHomePageMovies(movieBarType),
       ]);
+      console.log(movieBarMovies);
       let idList;
       if (movieBarType === 'popular') {
         idList = Object.values(movieBarMovies.popularData).map((item) => (item.movie_id));
